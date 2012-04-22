@@ -15,8 +15,8 @@
 #define STATUS_CGI_FILE_FOUND 5
 #define STATUS_CGI_PROC_RUNNING 6
 #define STATUS_CGI_RESPONSE_WRITING 7
-#define STATUS_DUMMY_START    8
-#define STATUS_DUMMY_WAITING  9
+#define STATUS_MAP_REQUESTED  8
+#define STATUS_MAP_DONE       9
 
 typedef int (*event_callback_func_t)(struct epoll_event* event, void* data);
 
@@ -39,6 +39,9 @@ typedef struct ed_client {
   int buf_len;
   int buf_parsed_len;
   parsed_request_t http_req;
+  int key;
+  int shmid;
+  char *shm;
 } ed_client_t;
 
 /* Keeps track of helper process associations */
@@ -56,6 +59,7 @@ typedef struct ed_epoll {
   helper_info_t helper_info;
   struct epoll_event *epoll_events;
   int fds_used;
+  int key;
 } ed_epoll_t;
 
 int setnonblock(int fd);

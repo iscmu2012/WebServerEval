@@ -6,9 +6,12 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <assert.h>
+#include <sys/mman.h>
+#include <sys/shm.h>
 #include "common.h"
 #include "ed_http.h"
 #include "ed_server.h"
+#define KEY 789
 
 /**
  * @brief parse an incoming http request for a valid http 1.0 query
@@ -17,7 +20,7 @@ int process_http_request(char *header, parsed_request_t *http_req)
 {
     regex_t reg;
     //char *pattern = "^(GET|HEAD|POST|PUT|DELETE|TRACE|CONNECT) ((http[s]?|ftp):/)?/?(([-#@%;$()~_?+=\\&[:alnum:]]*)((\\.[-#@%;$()~_?+=\\&[:alnum:]]*)*))(:([^/]*))?(.*) HTTP/1\\.(0|1)\r\n$";
-    char *pattern = "^(GET) (.*) HTTP/1\\.1\r\n((.*)\r\n)*$";
+    char *pattern = "^(GET) (.*) HTTP/1\\.[01]\r\n((.*)\r\n)*$";
     char errbuf[MAX_LINE];
     int errcode;
 
@@ -76,13 +79,13 @@ int process_http_request(char *header, parsed_request_t *http_req)
  */
 int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
 {
+//  int len;
   char *type = NULL;
   FILE *fp = NULL;
   ssize_t size;
-  char buffer[READ_CHUNK_SIZE];
   char file_path[MAX_LINE];
+  char buffer[READ_CHUNK_SIZE];
   ed_client_t *client; 
-  int len;
   
   client = &epoll_obj->ed_clients[fd];
   memset(file_path, 0, MAX_LINE);
@@ -124,26 +127,19 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
     }
 
     client->http_req.fp = fp;
+
+    // clear the buffer
+    memset(client->buffer, 0, READ_CHUNK_SIZE);
+    client->buf_len = 0;
+
     dbg_printf("File found: %s\n", file_path);
-
-    epoll_obj->helper_info.hi_client = client;
-    ed_epoll_set(epoll_obj, epoll_obj->helper_info.hi_fd, EPOLLOUT, "blaaaaa");
-    epoll_obj->helper_info.hi_client->http_req.status = STATUS_DUMMY_START;;
-
-  }
-  else if(client->http_req.status == STATUS_DUMMY_START)
-  {
-    dbg_printf("in dummy start state\n");
-  }
-  else if(client->http_req.status == STATUS_DUMMY_WAITING)
-  {
-    dbg_printf("in dummy writing state\n");
-//    ed_epoll_set(epoll_obj, fd, EPOLLIN, NULL);
+    client->http_req.status = STATUS_FILE_FOUND;
 
   }
   /* 2nd stage: write http header */
   else if(client->http_req.status == STATUS_FILE_FOUND)
-  {
+  { int shmid;
+    char *shm;
     fp = client->http_req.fp;
     if(fseek(fp, 0, SEEK_END) == -1)
     {
@@ -163,7 +159,7 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
       client->http_req.status = STATUS_REQUEST_FINISH;
       return FAILURE;    
     }
-    rewind(fp);
+    fclose(fp);
 
     client->http_req.status = STATUS_HEADER_WRITTEN;
     client->http_req.response_size = size;
@@ -171,42 +167,58 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
     write_http_response_header(fd, type, size, 200, "OK");
 
     dbg_printf("response header written: %s on socket %d\n", file_path, fd);
+
+    // XXX Assign reader-helper to clien + keyt
+    epoll_obj->helper_info.hi_client = client;
+    client->key = epoll_obj->key++;
+		ed_epoll_set(epoll_obj, epoll_obj->helper_info.hi_fd, EPOLLOUT, file_path);
+  }
+  else if (client->http_req.status == STATUS_MAP_REQUESTED) {
+    char *buffer = client->buffer;
+    if (strcmp(buffer, "done")) {
+      dbg_printf("stupid buffer here is %s\n", buffer);
+      return SUCCESS;
+      assert(0);
+    }
+    dbg_printf("CHANGING STATUS TO DATA WRITING\n");
+    client->http_req.status = STATUS_DATA_WRITING;
   }
   /* 3rd stage: write response data only a single chunk in one call */
-  else if(client->http_req.status == STATUS_HEADER_WRITTEN || client->http_req.status == STATUS_DATA_WRITING)
+  else if(client->http_req.status == STATUS_DATA_WRITING)
   {
-    fp = client->http_req.fp;
+    int shmid, chunks, i, rem;
+    char *shm, *old_shm;
     size = client->http_req.response_size;
-
-    len = fread(buffer, 1, READ_CHUNK_SIZE, fp);
-    if(ferror(fp))
-    {
-      err_printf("fread failed for %s\n", file_path);
-      clearerr(fp);
-      fclose(fp);
-      write_http_response_error(500, fd);
-      client->http_req.status = STATUS_REQUEST_FINISH;
-      return FAILURE;
-    }
+   
+   // shmid = client->shmid;
+   // shm = client->shm;  
  
-    if(feof(fp))
-    { 
-      if(fclose(fp) == EOF)
-        err_printf("fclose failed\n");
-      client->http_req.status = STATUS_REQUEST_FINISH;
-    }
-    else
-    {
-      client->http_req.status = STATUS_DATA_WRITING;
-    }
+		if ((shmid = shmget(client->key, size, 0666)) < 0) {
+						dbg_printf("something bad\n");
+		}
+		if ((shm = shmat(shmid, NULL, 0)) == (char *)-1) {
+						dbg_printf("something really bad\n");
+		}
+		client->shm = shm;
+		client->shmid = shmid;
 
-    if(len > 0)
-    {
-      dbg_printf("buffer: %s\n", buffer);
-      //write_http_response_header(fd, type, size, 200, "OK");
-      write_http_response_data(fd, buffer, len); 
-      dbg_printf("output returned for %s\n", file_path);
-    }
+		old_shm = shm;
+		chunks = size / READ_CHUNK_SIZE;
+		for (i = 0; i < chunks; i++) {
+						memcpy(buffer, shm, READ_CHUNK_SIZE);
+						shm+=READ_CHUNK_SIZE;
+						dbg_printf("buffer: %s\n", buffer);
+						write_http_response_data(fd, buffer, READ_CHUNK_SIZE);
+		} 
+		rem = size % READ_CHUNK_SIZE;
+		memcpy(buffer, shm, rem);
+		dbg_printf("buffer: %s\n", buffer);
+		write_http_response_data(fd, buffer, rem);
+
+		if (shmctl(shmid, IPC_RMID, NULL) < 0) {
+						// TODO your mom
+     } 
+     client->http_req.status = STATUS_REQUEST_FINISH;
   }
   return SUCCESS;
 }

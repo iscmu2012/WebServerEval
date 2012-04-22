@@ -1,0 +1,20 @@
+Evaluation:
+
+Synthetic workload:
+SPED vs MT vs AMPED
+- Static file
+  * no caching
+  * increase file size and measure:
+    1. Bandwidth
+    2. Connection rate
+- Dynamic file
+  * no caching (obviously)
+  * increase file size and measure
+    1. Bandwidth
+    2. Connection rate
+- Optimized dynamic file
+  * no caching (obviously)
+  * increase file size and measure
+    1. Bandwidth
+    2. Connection rate
+  

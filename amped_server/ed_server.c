@@ -36,7 +36,7 @@ int main (int argc, char *argv [])
   /* Generate helper process(es) */
   fd = create_generic_slave("dummy_slave");
   ed_epoll.helper_info.hi_fd = fd;
-  ed_epoll_add(&ed_epoll, fd, ed_dummy_callback, NULL);
+  ed_epoll_add(&ed_epoll, fd, ed_reader_callback, NULL);
 
   /* Start HTTP Server  and Listen for incoming requests */
   server_sockfd = start_server_socket(server_port);
@@ -158,6 +158,8 @@ int ed_socket_callback(struct epoll_event *event, void *data)
         write_http_response(&ed_epoll, fd, data);
         if(ed_epoll.ed_clients[fd].http_req.status == STATUS_REQUEST_FINISH)
         {  
+          // FREE the helper process (set as inactive)
+          ed_epoll.helper_info.hi_client = NULL;
           ed_epoll_del(&ed_epoll, fd);
           close_socket(fd);
         }
@@ -229,11 +231,11 @@ int ed_socket_callback(struct epoll_event *event, void *data)
   return SUCCESS;
 }
 
-int ed_dummy_callback(struct epoll_event *event, void *data)
+int ed_reader_callback(struct epoll_event *event, void *data)
 {
-  int helper_fd, client_fd, n, max_read, read_len;
+  int helper_fd, client_fd, n, max_read, read_len, size;
   ed_client_t *client, *helper_client;
-  char *request = (char *)data;
+  char request[MAX_LINE];
 
   helper_fd = event->data.fd;
   helper_client = &(ed_epoll.ed_clients[helper_fd]);
@@ -256,8 +258,6 @@ int ed_dummy_callback(struct epoll_event *event, void *data)
   // when all response is read, change status to move to next step of
   // state machine. Free helper to be used by someone else.
     
-//  dbg_printf("received event for socket %d\n", event->data.fd);
- 
   if(event->events & EPOLLERR)
   {
     dbg_printf("Event:EPOLLERR %d on socket %d\n", event->events, helper_fd);
@@ -282,7 +282,7 @@ int ed_dummy_callback(struct epoll_event *event, void *data)
       {
         client_fd = client->fd;
 
-        if(client->http_req.status != STATUS_DUMMY_START) {
+        if(client->http_req.status != STATUS_HEADER_WRITTEN) {
 //          dbg_printf("why is there data to be sent but process is not start state?\n");
 //          dbg_printf("client is in state %d\n", client->http_req.status);
 //          assert(0);
@@ -291,13 +291,20 @@ int ed_dummy_callback(struct epoll_event *event, void *data)
         }
 
         dbg_printf("we have something to write on socket %d\n", helper_fd);
+
+        // XXX Mark helper process as in-use
+
+        size = client->http_req.response_size; 
+        sprintf(request, "%d %d %s", client->key, size, (char *) data);
+        
         n = write(helper_fd, request, strlen(request) + 1);
         if(n != (strlen(request) + 1)) {
        	  dbg_printf("not everything was written out to %d\n", helper_fd);
+          assert(0);
           // TODO error: close helper socket, kill process, and set client
           // status to be STATUS_REQUEST_FINISH.
         }
-        client->http_req.status = STATUS_DUMMY_WAITING;
+        client->http_req.status = STATUS_MAP_REQUESTED;
         dbg_printf("we have finished writing on socket %d\n", helper_fd);
       }
       else
@@ -313,7 +320,7 @@ int ed_dummy_callback(struct epoll_event *event, void *data)
     client = ed_epoll.helper_info.hi_client;
     client_fd = client->fd;
 
-    if(client->http_req.status != STATUS_DUMMY_WAITING) {
+    if(client->http_req.status != STATUS_MAP_REQUESTED) {
       dbg_printf("why is there data to be read but process is not waiting?\n");
       assert(0);
     }
@@ -321,14 +328,15 @@ int ed_dummy_callback(struct epoll_event *event, void *data)
     read_len = 0;
     n = 0;
 
-    max_read = ((helper_client->buf_len + BUF_SIZE_PER_READ) <= REQUEST_SIZE) ? BUF_SIZE_PER_READ : (REQUEST_SIZE - helper_client->buf_len);
+   max_read = MAX_LINE;
+//    max_read = ((client->buf_len + BUF_SIZE_PER_READ) <= REQUEST_SIZE) ? BUF_SIZE_PER_READ : (REQUEST_SIZE - client->buf_len);
     // Read IPC response into helper_client->buffer
-    n = read(helper_fd, (helper_client->buffer + helper_client->buf_len), max_read);
+    n = read(helper_fd, (client->buffer + client->buf_len), max_read);
 
     if(n > 0)
     {
       read_len += n;
-      helper_client->buf_len += n;
+      client->buf_len += n;
     }
   
     dbg_printf("%d bytes(n = %d) read on socket %d\n", read_len, n, helper_fd);
@@ -345,12 +353,10 @@ int ed_dummy_callback(struct epoll_event *event, void *data)
     }
     else
     {
-      dbg_printf("read returned %s\n", helper_client->buffer);
-      client->http_req.status = STATUS_FILE_FOUND;
+      dbg_printf("read returned %s\n", client->buffer);
+      // XXX Response should be "done"
+      write_http_response(&ed_epoll, client->fd, client->http_req.page);
 //      ed_epoll_del(&ed_epoll, ed_epoll.helper_info.hi_fd);
-      ed_epoll_set(&ed_epoll, client->fd, EPOLLOUT, NULL);
-      // FREE the helper process (set as inactive)
-      ed_epoll.helper_info.hi_client = NULL;
     }    
   }
   else

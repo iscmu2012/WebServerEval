@@ -9,6 +9,6 @@ void handle_epoll_events();
 
 int ed_accept_callback(struct epoll_event *event, void *data);
 int ed_socket_callback(struct epoll_event *event, void *data);
-int ed_dummy_callback(struct epoll_event *event, void *data);
+int ed_reader_callback(struct epoll_event *event, void *data);
 
 #endif /* _SERVER_H_ */

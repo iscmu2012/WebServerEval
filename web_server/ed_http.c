@@ -16,7 +16,7 @@ int process_http_request(char *header, parsed_request_t *http_req)
 {
     regex_t reg;
     //char *pattern = "^(GET|HEAD|POST|PUT|DELETE|TRACE|CONNECT) ((http[s]?|ftp):/)?/?(([-#@%;$()~_?+=\\&[:alnum:]]*)((\\.[-#@%;$()~_?+=\\&[:alnum:]]*)*))(:([^/]*))?(.*) HTTP/1\\.(0|1)\r\n$";
-    char *pattern = "^(GET) (.*) HTTP/1\\.1\r\n((.*)\r\n)*$";
+    char *pattern = "^(GET) (.*) HTTP/1\\.[01]\r\n((.*)\r\n)*$";
     char errbuf[MAX_LINE];
     int errcode;
 
@@ -288,11 +288,14 @@ int write_http_cgi_response(struct ed_epoll *epoll_obj, char *file_path, int fd)
 
     dbg_printf("CGI proc %s is running\n", command);
   }
-  else if(client->http_req.status == STATUS_CGI_PROC_RUNNING)
+  else if((client->http_req.status == STATUS_CGI_PROC_RUNNING) ||
+          (client->http_req.status == STATUS_CGI_RESPONSE_WRITING))
   {
     fp = client->http_req.fp;
     command = client->http_req.cgi_command;
  
+   dbg_printf("STATUS_CGI_PROC_RUNNING\n");
+
     n = fread(buffer, 1, READ_CHUNK_SIZE, fp);
     if(ferror(fp))
     {
@@ -309,6 +312,7 @@ int write_http_cgi_response(struct ed_epoll *epoll_obj, char *file_path, int fd)
     {
       fclose(fp);
       client->http_req.status = STATUS_REQUEST_FINISH;
+      dbg_printf("STATUS_REQUEST_FINISH\n");
     }
     else
     {

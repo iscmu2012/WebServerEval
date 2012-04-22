@@ -1,6 +1,6 @@
 EXE = server fastcgi dummy_slave libhello.so libsumnumbers.so
 CC = gcc
-CFLAGS = -g -Wall -rdynamic
+CFLAGS = -g -Wall -rdynamic 
 LDFLAGS = -lpthread -ldl
 DEPS = common.h ed_epoll_event.h ed_http.h ed_server.h fastcgi_server.h
 WEBOBJ = common.o ed_epoll_event.o ed_http.o ed_server.o

@@ -7,31 +7,30 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/time.h>
+#include <sys/mman.h>
+#include <sys/shm.h>
+#include <sys/ipc.h>
+#include <fcntl.h>
 #include "common.h"
 
 #define OUTFD 0
+#define READ_CHUNK_SIZE 1024
 
 /* ---------------------------------------------------------------- */
 int main(int argc, char *argv[])
 {
-  int sendReply = 0;
+  FILE *fp = NULL;
   char *reply = "done";
   char request[MAX_LINE];
+  char buffer[READ_CHUNK_SIZE];
+  char file_path[MAX_LINE];
+  int size, shmid, key, len;
+  char *shm;
   dbg_printf("Dummy slave started.\n");
 
   while (1) {
-    int ret;
-    if (sendReply) {
-      dbg_printf("writing reply to socket: %s\n", reply);
-      write(OUTFD, reply, 1+strlen(reply));
-      dbg_printf("wrote reply to socket: %s\n", reply);
-      sendReply = 0;
-    }
-    sendReply = 1;
     reply = "done";
-
-    ret = read(0, request, MAX_LINE);
-    dbg_printf("read request: %s\n", request);
+    int ret = read(0, request, MAX_LINE);
     if (ret == 0)	{	/* master closed connection */
       dbg_printf("read slave returned 0.\n");
       exit(0);
@@ -40,6 +39,43 @@ int main(int argc, char *argv[])
       dbg_printf("read slave had negative return value.\n");
       exit(0);
     }
+    if (sscanf(request, "%d %d %s", &key, &size, file_path) != 3) {
+      dbg_printf("scanf returned an error\n");
+      exit(0);
+    }
+
+    dbg_printf("file request: %s\nsize: %d\n", file_path, size);
+
+
+    fp = fopen(file_path, "r");
+    if (fp < 0) {
+      reply = "fd failed";
+    }
+    else {
+      if ((shmid = shmget(key, size, IPC_CREAT | 0666)) < 0) {
+        dbg_printf("shmget() error\n");
+        exit(0);
+      }
+      if ((shm = shmat(shmid, NULL, 0)) == (char *) -1) {
+        dbg_printf("shmat() error\n");
+        exit(0);
+      }
+      dbg_printf("key %d, shmid %d, shm %p\n", key, shmid, shm);
+      while(!feof(fp)) {
+        len = fread(buffer, 1, READ_CHUNK_SIZE, fp);
+        if (len < 0) {
+          dbg_printf("read error\n");
+          exit(0);
+        }
+        memcpy(shm, buffer, len);
+        dbg_printf("shm: %s", shm);
+        shm += len;
+      }
+    }
+    fclose(fp);
+
+    dbg_printf("writing reply to socket: %s\n", reply);
+    write(OUTFD, reply, 1+strlen(reply));
   }
   return 0;
 }

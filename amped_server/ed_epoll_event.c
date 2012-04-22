@@ -48,6 +48,9 @@ int ed_epoll_init(struct ed_epoll *epoll_obj, int maxfds)
   epoll_obj->helper_info.hi_fd = 0;
   epoll_obj->helper_info.hi_client = NULL;
 
+  /* Initialize key */
+  epoll_obj->key = 500 ;
+
   for (i=0; i<maxfds; i++) 
   {
     epoll_obj->ed_clients[i].callback = NULL;

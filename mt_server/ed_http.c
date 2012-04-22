@@ -16,7 +16,7 @@ int process_http_request(char *header, parsed_request_t *http_req)
 {
     regex_t reg;
     //char *pattern = "^(GET|HEAD|POST|PUT|DELETE|TRACE|CONNECT) ((http[s]?|ftp):/)?/?(([-#@%;$()~_?+=\\&[:alnum:]]*)((\\.[-#@%;$()~_?+=\\&[:alnum:]]*)*))(:([^/]*))?(.*) HTTP/1\\.(0|1)\r\n$";
-    char *pattern = "^(GET) (.*) HTTP/1\\.1\r\n((.*)\r\n)*$";
+    char *pattern = "^(GET) (.*) HTTP/1\\.[01]\r\n((.*)\r\n)*$";
     char errbuf[MAX_LINE];
     int errcode;
 

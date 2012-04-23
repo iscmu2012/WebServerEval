@@ -1,4 +1,4 @@
-cscope 15 $HOME/servers/GP/WebServerEval/web_server               0000491698
+cscope 15 $HOME/servers/GP/WebServerEval/web_server               0000493007
 	@common.c
 
 1 
@@ -618,12 +618,6 @@ _COMMON_H_
 9 
 	~<uni°d.h
 >
-
-11 
-	#DEBUG
-
-
-	)
 
 13 
 	#SERVERPORT
@@ -1611,7 +1605,7 @@ _EPOLL_EVENT_H_
 
 6 
 	#MAX_ED_EVENTS
- 1000
+ 65535
 
 	)
 
@@ -3052,7 +3046,7 @@ hâp_ªq
 .
 °©us
  =
-STATUS_CGI_PROC_WRITING
+STATUS_CGI_RESPONSE_WRITING
 ))
 
 294 
@@ -6042,6 +6036,222 @@ sockfd
 (
 £rvî_fd
 );
+
+	@generate_text.c
+
+4 
+	~<°dio.h
+>
+
+5 
+	~<°dlib.h
+>
+
+6 
+	~<°rög.h
+>
+
+8 
+	#MAXLINE
+ 65536
+
+	)
+
+9 
+	#MAXGENERATE
+ 65536
+
+	)
+
+12 
+	$maö
+() {
+
+13 
+c⁄ã¡
+[
+MAXLINE
+], *
+ív
+, 
+îr‹
+[MAXLINE];
+
+14 
+msg
+[
+MAXGENERATE
+];
+
+15 
+size
+, 
+i
+;
+
+17 
+ív
+ = 
+	`gëív
+("QUERY_STRING");
+
+20 
+	`•rötf
+(
+c⁄ã¡
+, "WelcomeÅoÅhe onlineÅext generator: \r\n");
+
+21 
+	`•rötf
+(
+c⁄ã¡
+, "%sThis isáÅext.\r\n<p>", content);
+
+23 i‡(
+ív
+ =
+NULL
+) {
+
+24 
+	`•rötf
+(
+îr‹
+, "Can't scan buffer!<br/>Usage: generate_tex?n=X<br/>\r\n");
+
+25 
+îr‹
+;
+
+27 i‡(
+	`ssˇnf
+(
+ív
+, "n=%d\n", &
+size
+) != 1) {
+
+28 
+	`•rötf
+(
+îr‹
+, "Can't scan buffer!<br/>Usage: generate_tex?n=X<br/>\r\n");
+
+29 
+îr‹
+;
+
+31 i‡((
+size
+ < 0Ë|| (sizê> (
+MAXGENERATE
+ - 1))) {
+
+32 
+	`•rötf
+(
+îr‹
+, "Sizêmu° bêbëwì¿%dánd %d", 0, 
+MAXGENERATE
+ -1);
+
+33 
+îr‹
+;
+
+38 
+i
+ = 0; i < 
+size
+; i++) {
+
+39 
+msg
+[
+i
+] = () (33 + (i % 93));
+
+41 
+msg
+[
+size
+] = '\0';
+
+44 
+	`¥ötf
+("Content-length: %u\r\n",
+
+45 (Ë(
+	`°æí
+(
+c⁄ã¡
+Ë+ 
+size
+));
+
+46 
+	`¥ötf
+("Content-type:Åext/html\r\n\r\n");
+
+47 
+	`¥ötf
+("%s", 
+c⁄ã¡
+);
+
+48 
+	`¥ötf
+("%s\r\n", 
+msg
+);
+
+49 
+	`fÊush
+(
+°dout
+);
+
+52 
+îr‹
+:
+
+53 
+	`¥ötf
+("Content-length: %u\r\n",
+
+54 (Ë(
+	`°æí
+(
+c⁄ã¡
+)+ såÀn(
+îr‹
+)));
+
+55 
+	`¥ötf
+("Content-type:Åext/html\r\n\r\n");
+
+56 
+	`¥ötf
+("%s", 
+c⁄ã¡
+);
+
+57 
+	`¥ötf
+("%s", 
+îr‹
+);
+
+58 
+	`fÊush
+(
+°dout
+);
+
+60 
+	}
+}
 
 	@hello.c
 
@@ -87180,8 +87390,8 @@ _IOC_SIZESHIFT
 .
 1
 /usr/include
-121
-3047
+122
+3063
 common.c
 common.h
 ed_epoll_event.c
@@ -87192,6 +87402,7 @@ ed_server.c
 ed_server.h
 fastcgi_server.c
 fastcgi_server.h
+generate_text.c
 hello.c
 sumnumbers.c
 /usr/include/arpa/inet.h

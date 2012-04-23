@@ -1,5 +1,21 @@
 Evaluation:
 
+Configuration Details:
+* SPED
+- MAX_ED_EVENTS 65536
+- READ_CHUNK_SIZE 1024
+- EVENT_WAIT_TIMEOUT 1000
+- FASTCGI_SERV_ADDR "127.0.0.1" /* probably need to change to some unix machine */
+- FASTCGI_SERV_PORT "12345"
+- SERVERQUEUELENGTH 50 
+/* I think this is the accept queue: should be
+   canged according to the accept()able paper */
+
+* MT
+
+
+
+
 Synthetic workload:
 SPED vs MT vs AMPED
 - Static file

@@ -8,10 +8,10 @@
 #include <errno.h>
 #include <unistd.h>
 
-#define DEBUG
+/* #define DEBUG */
 
 #define SERVERPORT 33923
-#define SERVERQUEUELENGTH 10
+#define SERVERQUEUELENGTH 50
 #define MAX_LINE 1024
 #define SMALL_LINE 16
 #define MAX_BUF_SIZE 1024

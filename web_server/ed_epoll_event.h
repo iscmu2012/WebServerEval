@@ -3,7 +3,7 @@
 
 #include <sys/epoll.h>
 
-#define MAX_ED_EVENTS 1000
+#define MAX_ED_EVENTS 65535
 #define REQUEST_SIZE 4096
 #define READ_CHUNK_SIZE 1024
 

@@ -9,12 +9,6 @@
 
 void generate_text(char *env); 
 
-int main(int argc, char **argv) 
-{
-  generate_text(getenv("QUERY_STRING"));
-  return 0;
-}
-
 void generate_text(char *env)
 {
 	char content[MAXLINE], error[MAXLINE];

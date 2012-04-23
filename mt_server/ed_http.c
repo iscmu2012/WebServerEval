@@ -26,6 +26,7 @@ int process_http_request(char *header, parsed_request_t *http_req)
     char method[MAX_LINE];
     //char page[MAX_LINE];
     int method_len, page_len;
+//    int i;
 
     if((errcode = regcomp(&reg, pattern, REG_ICASE|REG_EXTENDED)) != 0)
     {
@@ -41,8 +42,8 @@ int process_http_request(char *header, parsed_request_t *http_req)
     }
 
     /* debugging */
-/*
-     for(i=0; i<3; i++)
+
+/*     for(i=0; i<3; i++)
      {
         dbg_printf("i = %d: %d-%d\n", i, pmatch[i].rm_so, pmatch[i].rm_eo);
      }
@@ -50,6 +51,7 @@ int process_http_request(char *header, parsed_request_t *http_req)
     regfree(&reg);
 
     memset(method, 0, MAX_LINE);
+    memset(http_req->page, 0, MAX_LINE); 
 
     method_len = pmatch[1].rm_eo - pmatch[1].rm_so;
     page_len   = pmatch[2].rm_eo - pmatch[2].rm_so;

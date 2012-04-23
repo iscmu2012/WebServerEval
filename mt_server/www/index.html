@@ -13,10 +13,14 @@
     <a href="cgi-bin/hello.pl">CGI Hello</a><br/>
     <a href="cgi-bin/sumnumbers.pl?num1=4&num2=7">CGI SUM[Perl]</a><br/>
     <a href="cgi-bin/sumnumbers?num1=4&num2=7">CGI SUM[C]</a><br/>
+    <form name ="input" action="cgi-bin/generate_text" method="get">
+      CGI File Size: <input type="text" name="n" />
+      <input type="submit" value="Generate" />
+    </form>
     <a href="fastcgi-bin/hello">Fast CGI Hello</a><br/>
     <a href="fastcgi-bin/sumnumbers?num1=4&num2=7">Fast CGI SUM</a><br/>
-    <form name ="input" action="cgi-bin/generate_text" method="get">
-      File Size: <input type="text" name="n" />
+    <form name ="input" action="fastcgi-bin/generate_text" method="get">
+      FAST-CGI File Size: <input type="text" name="n" />
       <input type="submit" value="Generate" />
     </form>
   </body>

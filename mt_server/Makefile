@@ -1,4 +1,4 @@
-EXE = server fastcgi libhello.so libsumnumbers.so
+EXE = server fastcgi libhello.so libsumnumbers.so libgenerate_text.so
 CC = gcc
 CFLAGS = -g -Wall -rdynamic
 PFLAGS = -lpthread
@@ -17,6 +17,12 @@ server: $(WEBOBJ)
 
 fastcgi: $(FASTCGIOBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(PFLAGS) $(LDFLAGS)
+
+generate_text.o: generate_text.c
+	$(CC) -fpic -c generate_text.c $(CFLAGS)
+
+libgenerate_text.so: generate_text.o
+	$(CC) -shared -Wl,-soname,libgenerate_text.so generate_text.o -lc -o $@
 
 hello.o: hello.c
 	$(CC) -fpic -c hello.c $(CFLAGS)

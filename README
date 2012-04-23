@@ -12,9 +12,11 @@ Configuration Details:
    canged according to the accept()able paper */
 
 * MT
+NTHREADS 64 /* Not sure what the ideal number should be */
+SBUFSIZE 65535
 
-
-
+HTTPERF commandline
+* httperf --hog --server unix13.andrew.cmu.edu --port=10452 --uri=/2KB.txt --http-version=1.0 --rate=X --num-conns=X*90 --timeout=x
 
 Synthetic workload:
 SPED vs MT vs AMPED

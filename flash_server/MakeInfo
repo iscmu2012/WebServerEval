@@ -1,0 +1,34 @@
+CC =		cc
+CCOPT =		-O
+DEFS =		-D_NO_BITFIELDS -DHAVE_FCNTL_H=1 -DHAVE_MEMORY_H=1 -DTIME_WITH_SYS_TIME=1 -DHAVE_DIRENT_H=1 -DHAVE_WAITPID=1 -DHAVE_SIGVEC=1 -DHAVE_GETPAGESIZE=1 $(FLASHDEFS)
+INCLS =		-I.
+CFLAGS =	$(CCOPT) $(DEFS) $(INCLS) 
+LDFLAGS =	
+# LIBS =		-lsocket -lnsl
+
+all: $(FLASH) $(FL_CONV) $(FL_READ) $(FL_DIR) $(EXTRA_TARG)
+
+clean:
+	rm -f $(FLASH_OBJS) $(FLASH) $(FL_CONV) $(FL_DIR) $(FL_READ) $(CLEANING) depends read_slave.o convert_slave.o dir_slave.o *~
+
+ALL_SRCS = accept.c hotfile.c hotname.c datacache.c loop.c readreq.c timer.c cgi.c cold.c common.c convert_master.c dir_master.c libhttpd.c main.c match.c nameconvert.c read_master.c tdate_parse.c read_slave.c convert_slave.c dir_slave.c $(EXTRA_SRC)
+
+FLASH_OBJS = accept.o hotfile.o hotname.o datacache.o loop.o readreq.o timer.o  cgi.o cold.o common.o convert_master.o dir_master.o libhttpd.o main.o match.o nameconvert.o read_master.o tdate_parse.o $(EXTRA_OBJ)
+
+$(FLASH): $(FLASH_OBJS) 
+	$(CC) -o $@ $(FLASH_OBJS) $(LIBS) $(EXTRA_LIBS)
+
+$(FL_CONV): convert_slave.o
+	$(CC) -o $@ convert_slave.o $(LIBS)
+
+$(FL_DIR): dir_slave.o
+	$(CC) -o $@ dir_slave.o $(LIBS)
+
+$(FL_READ): read_slave.o $(EXTRA_OBJ)
+	$(CC) -o $@ read_slave.o $(EXTRA_OBJ) $(LIBS)
+
+depends: $(ALL_SRCS)
+	rm -f $@
+	$(CC) -M $(FLASHDEFS) $(INCLS) $(ALL_SRCS) > $@
+
+include depends

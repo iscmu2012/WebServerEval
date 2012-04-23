@@ -1,0 +1,46 @@
+# Session 1
+/docs/10B.txt
+/docs/10B.txt headers='Range: bytes=1-1\n'
+/docs/10B.txt headers='Range: bytes=0-1\n'
+/docs/10B.txt headers='Range: bytes=2-3\n'
+/docs/10B.txt headers='Range: bytes=5-9\n'
+/docs/10B.txt
+
+# # Session 2
+# /docs/10B.txt
+# /docs/1M.txt headers='Range: bytes=0-63\n'
+# /docs/1M.txt headers='Range: bytes=64-127\n'
+# /docs/1M.txt headers='Range: bytes=128-191\n'
+# /docs/10B.txt
+# 
+# # Session 3
+# /docs/10B.txt
+# /docs/1M.txt headers='Range: bytes=1024-1025\n'
+# /docs/1M.txt headers='Range: bytes=1024-1025\n'
+# /docs/10B.txt
+# 
+# # Session 4
+# /docs/10B.txt
+# /docs/1M.txt headers='Range: bytes=64000-64063\n'
+# /docs/1M.txt headers='Range: bytes=64064-64127\n'
+# /docs/1M.txt headers='Range: bytes=64128-64191\n'
+# /docs/10B.txt
+# 
+# # Session 5
+# /docs/10B.txt
+# /docs/1M.txt headers='Range: bytes=128000-128063\n'
+# /docs/1M.txt headers='Range: bytes=128064-128127\n'
+# /docs/1M.txt headers='Range: bytes=128128-128191\n'
+# /docs/10B.txt
+# 
+# # Session 6
+# /docs/10B.txt
+# /docs/1M.txt headers='Range: bytes=0-63\n'
+# /docs/1M.txt headers='Range: bytes=64-127\n'
+# /docs/1M.txt headers='Range: bytes=128-191\n'
+# /docs/10B.txt
+# 
+# # Session 7
+# /docs/10B.txt
+# /docs/1M.txt headers='Range: bytes=1048512-1048575\n'
+# /docs/10B.txt

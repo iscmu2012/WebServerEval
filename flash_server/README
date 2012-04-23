@@ -1,0 +1,136 @@
+Flash Web server v0.1a - September 14, 1999
+
+These files contain an alpha version of the Flash Web server.
+Currently, there's not any significant amount of documentation,
+since this is still an alpha release.  
+
+
+Building
+--------
+Flash should build by typing either "gmake" or "gnumake". Likewise,
+the directory can be cleaned up by typing "gmake clean".  If you are
+using gcc instead of cc, change the "CC" value in MakeInfo.
+
+The default makefile should work on FreeBSD, Linux, and Digital Unix
+without changes.
+
+On Solaris, you'll need to uncomment the "LIBS" line in MakeInfo and
+probably use gcc.
+
+On AIX, the makefile should work for gcc, but will not work without
+modification for IBM's cc/xlc.
+
+
+Running
+-------
+Typing "flash" should get a default version of the server up and
+running. Flash will print out all of the command-line options, their
+values, and some other information. Flash does _not_ daemonize itself,
+so you can tell that it's still running if it hasn't returned to the
+command line. The default port number is 31415, and is set in the
+Makefile.
+
+
+Overall Architecture
+--------------------
+Flash uses a hybrid architecture called "Asymmetric Multiple
+Process Event Driven," which is described in detail in the
+Usenix 99 paper available at http://www.cs.rice.edu/~vivek/
+
+
+Command-line Options
+--------------------
+Flash displays all of the settings for the command-line options
+when it is run. To run Flash with different settings, type
+"Flash -optionname <optionvalue>"
+You can specify multiple optionnames and optionvalues. The current
+list of options, with brief descriptions, are:
+
+ lrusize - the megabytes of cache memory to assume. Set this value
+     slightly conservatively if your system doesn't have mincore. The
+     server keeps a LRU list of file pages, and this value bounds the
+     size of that list. If this is set to zero, the list is allowed to
+     grow unbounded.
+ readhelp - the maximum number of read helper processes
+ convhelp - the maximum number of pathname conversion helper processes
+ dirhelp - the maximum number of processes used to perform directory
+     listings
+ readinit - the initial number of read helper processes spawned when
+      the server starts. Additional processes can be spawned on demand,
+      up to the limit of "readhelp"
+ convinit - initial number of pathname conversion helper processes
+ sendkb - the size in kB of per-connection send buffer. Set only if the
+      file being sent is larger than the default connection buffer size
+ port, p - port number on which to receive requests
+ dir, d - root directory of document tree
+ slavedel - number of seconds for slave queue to be busy before new
+      slave starts. If zero, spawns new slaves immediately as
+      needed. Otherwise, waits for evidence of demand over time period
+      before spawning new slaves.  Basically prevents short-term spikes
+      from causing lots of slaves to be spawned.
+ doqlen - if set, shows hash bin lengths with stats. Just for debugging.
+ stats - show recent statistics when server is idle. Interesting, since
+      it shows that the server is alive and mostly healthy.
+ mincoredump - debugging option for systems with mincore
+ namecache - maximum number of entries in url->pathname cache
+ accesslog - if specified, the name of the file to log accesses
+ helperidle - if set, the maximum number of seconds a helper process
+      will be idle before trying to shut down. Basically, a way of
+      collapsing the number of helper processes. FreeBSD 2.2.6 was
+      having problems with this, so the default is to never collapse.
+ flashprocs - number of main processes to be started. Rudimentary 
+      SMP support.
+
+
+Important Files
+---------------
+The directory contains the following files (only important ones noted):
+
+ accept.c, accept.h - accepting and initializing new connections
+ cgi.c, cgi.h - handles all steps related to cgi applications
+ cold.c, cold.h - processing of "cold" files and "cold" request.
+      basically, doing all of the stuff necessary to get information
+      the first time a file is requested.
+ config.h - some configuration parameters for the server. These have
+      been expanded since the previous version of Flash, and the new
+      ones are at the bottom.
+ conn.h - the structures relating to a connection
+ convert_master.c, convert_slave.c - "slave" is the standalone code for
+      the pathname conversion helper program, while "master" is the
+      part of the server responsible for launch the program and
+      interacting with it.
+ datacache.c, datacache.h - caching mmap'ed files, and also contains
+      extra code for the Flash-Lite version of the server.
+ dir_master.c, dir_slave.c - the code responsible for performing
+      directory listings and sending it back to the client
+ helper.h - the header file containing the definitions, etc., for the
+      two "master" files - convert_master.c and read_master.c
+ hotfile.c, hotfile.h - all of the functions involved in sending a file
+      that is already in the cache
+ hotname.c, hotname.h - caching of URL-to-filename translations
+ libhttpd.c, libhttpd.h - general code that doesn't fit anywhere else
+ loop.c, loop.h - the main processing loop for the server. Does the
+      select, starts up the request processing, etc. None of the
+      request-specific code is in here, since it might be a hot file, a
+      cold file, or a cgi.
+ main.c - the startup code. Just does initialization, argument
+      processing, and jumping to the main loop. Contains most of the
+      default values for the command-line arguments.
+ nameconvert.c, nameconvert.h - converting the URL to a filename
+ read_master.c, read_slave.c - the helper code for touching file data
+      pages
+ readreq.c, readreq.h - reading the request from the client
+
+
+Copyright Info
+--------------
+Please read the file "Copyright_notice" for full details. In short,
+this is _not_ public domain software, and redistribution is
+prohibited. Flash can be obtained from http://www.cs.rice.edu/~vivek/
+
+
+Contact Info
+------------
+Vivek Sadananda Pai, Rice University
+vivek@cs.rice.edu
+

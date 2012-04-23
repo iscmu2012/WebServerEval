@@ -1,0 +1,43 @@
+#!/bin/csh
+
+# Some basic configuration
+set show_replies = 1
+set server      = "127.0.0.1"
+
+if ($#argv != 2) then
+  echo "Usage : $0 logfile num-sessions"
+  exit 1
+endif
+
+set logfile        = $1
+
+echo "Using log number = $1"
+echo "Using logfile = $logfile"
+
+
+
+set session     = "--wsesslog $2,0,$logfile"
+set rate        = ""
+# set conns       = "--num-conns $2"
+set conns       = ""
+
+# Request 10 byte file (assume userver is started in src dir)
+set uri         = ""
+# set httperf     = "httperf-headers --debug 999"
+set httperf     = "httperf"
+set httpversion = "--http-version 1.1"
+set timeout     = "--timeout 3"
+set port        = "--port 6800"
+# set extraopts   = "--verbose --hog"
+set extraopts   = "--verbose"
+
+if ($show_replies) then
+  set print = "--print-reply"
+else
+  set print = ""
+endif
+
+$httperf $extraopts --print-request --server $server $port $httpversion \
+         $conns $timeout $print $rate $session
+
+exit $status

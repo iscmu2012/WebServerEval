@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAXGENERATE 65536
+#define MAXGENERATE 210000
 #define MAXLINE     65535
 
 void generate_text(char *env); 

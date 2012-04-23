@@ -1,15 +1,25 @@
 /*
  * generate_text.c Generates random (printable) text for the user.
  * */
-#include "csapp.h"
-#define MAXGENERATE 65536
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MAXGENERATE 210000
+#define MAXLINE     65535
 
-int main(void) {
-	char content[MAXLINE], *env, error[MAXLINE];
+void generate_text(char *env); 
+
+int main(int argc, char **argv) 
+{
+  generate_text(getenv("QUERY_STRING"));
+  return 0;
+}
+
+void generate_text(char *env)
+{
+	char content[MAXLINE], error[MAXLINE];
 	char msg[MAXGENERATE];	/* Maximum generated message */
 	int size, i;
-
-	env = getenv("QUERY_STRING");
 
 	/* Make the response body */
 	sprintf(content, "Welcome to the online text generator: \r\n");
@@ -42,7 +52,7 @@ int main(void) {
 	printf("%s", content);
 	printf("%s\r\n", msg);
 	fflush(stdout);
-	return 0;
+	return;
 
 	error:
 	printf("Content-length: %u\r\n",
@@ -51,5 +61,5 @@ int main(void) {
 	printf("%s", content);
 	printf("%s", error);
 	fflush(stdout);
-	return 1;
+	return;
 }

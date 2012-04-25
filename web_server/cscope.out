@@ -1,4 +1,4 @@
-cscope 15 $HOME/servers/GP/WebServerEval/web_server               0000493007
+cscope 15 $HOME/servers/GP/WebServerEval/web_server               0000493001
 	@common.c
 
 1 
@@ -627,7 +627,7 @@ _COMMON_H_
 
 14 
 	#SERVERQUEUELENGTH
- 10
+ 1000
 
 	)
 
@@ -6051,79 +6051,79 @@ sockfd
 	~<°rög.h
 >
 
+7 
+	#MAXGENERATE
+ 210000
+
+	)
+
 8 
 	#MAXLINE
- 65536
+ 65535
 
 	)
 
-9 
-	#MAXGENERATE
- 65536
+10 
+gíî©e_ãxt
+(*
+ív
+);
 
-	)
+12 
+	$gíî©e_ãxt
+(*
+ív
+)
 
-12 
-	$maö
-() {
-
-13 
+14 
 c⁄ã¡
 [
 MAXLINE
-], *
-ív
-, 
+], 
 îr‹
 [MAXLINE];
 
-14 
+15 
 msg
 [
 MAXGENERATE
 ];
 
-15 
+16 
 size
 , 
 i
 ;
 
-17 
-ív
- = 
-	`gëív
-("QUERY_STRING");
-
-20 
+19 
 	`•rötf
 (
 c⁄ã¡
 , "WelcomeÅoÅhe onlineÅext generator: \r\n");
 
-21 
+20 
 	`•rötf
 (
 c⁄ã¡
 , "%sThis isáÅext.\r\n<p>", content);
 
-23 i‡(
+22 i‡(
 ív
  =
 NULL
 ) {
 
-24 
+23 
 	`•rötf
 (
 îr‹
 , "Can't scan buffer!<br/>Usage: generate_tex?n=X<br/>\r\n");
 
-25 
+24 
 îr‹
 ;
 
-27 i‡(
+26 i‡(
 	`ssˇnf
 (
 ív
@@ -6131,23 +6131,23 @@ NULL
 size
 ) != 1) {
 
-28 
+27 
 	`•rötf
 (
 îr‹
 , "Can't scan buffer!<br/>Usage: generate_tex?n=X<br/>\r\n");
 
-29 
+28 
 îr‹
 ;
 
-31 i‡((
+30 i‡((
 size
  < 0Ë|| (sizê> (
 MAXGENERATE
  - 1))) {
 
-32 
+31 
 	`•rötf
 (
 îr‹
@@ -6155,33 +6155,33 @@ MAXGENERATE
 MAXGENERATE
  -1);
 
-33 
+32 
 îr‹
 ;
 
-38 
+37 
 i
  = 0; i < 
 size
 ; i++) {
 
-39 
+38 
 msg
 [
 i
 ] = () (33 + (i % 93));
 
-41 
+40 
 msg
 [
 size
 ] = '\0';
 
-44 
+43 
 	`¥ötf
 ("Content-length: %u\r\n",
 
-45 (Ë(
+44 (Ë(
 	`°æí
 (
 c⁄ã¡
@@ -6189,37 +6189,37 @@ c⁄ã¡
 size
 ));
 
-46 
+45 
 	`¥ötf
 ("Content-type:Åext/html\r\n\r\n");
 
-47 
+46 
 	`¥ötf
 ("%s", 
 c⁄ã¡
 );
 
-48 
+47 
 	`¥ötf
 ("%s\r\n", 
 msg
 );
 
-49 
+48 
 	`fÊush
 (
 °dout
 );
 
-52 
+51 
 îr‹
 :
 
-53 
+52 
 	`¥ötf
 ("Content-length: %u\r\n",
 
-54 (Ë(
+53 (Ë(
 	`°æí
 (
 c⁄ã¡
@@ -6227,29 +6227,29 @@ c⁄ã¡
 îr‹
 )));
 
-55 
+54 
 	`¥ötf
 ("Content-type:Åext/html\r\n\r\n");
 
-56 
+55 
 	`¥ötf
 ("%s", 
 c⁄ã¡
 );
 
-57 
+56 
 	`¥ötf
 ("%s", 
 îr‹
 );
 
-58 
+57 
 	`fÊush
 (
 °dout
 );
 
-60 
+59 
 	}
 }
 

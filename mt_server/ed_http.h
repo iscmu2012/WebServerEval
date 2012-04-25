@@ -2,7 +2,7 @@
 #define _ED_HTTP_H_
 
 #define WWW_PATH "www"
-#define FASTCGI_SERV_ADDR "127.0.0.1"
+#define FASTCGI_SERV_ADDR "settlers.lab.ece.cmu.local"
 #define FASTCGI_SERV_PORT "12345"
 
 #include "ed_epoll_event.h"

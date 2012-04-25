@@ -1,7 +1,13 @@
+Servers:
+ - Client: unix
+ - Server: risk.lab.ece.cmu.local
+ - Fastcgi: settlers.lab.ece.cmu.local
+
+
 Evaluation:
 
 File Sizes:
-
+1, 2, 3, 4, 5, 8, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 125, 150, 200
 
 
 Configuration Details:
@@ -39,4 +45,35 @@ SPED vs MT vs AMPED
   * increase file size and measure
     1. Bandwidth
     2. Connection rate
-  
+
+- Request vs response (autobench)
+  for static, dynamic and optimized dynamic.  
+
+
+
+autobench:
+  * request rate increase:
+    Results:
+      - response vs request
+      - other autobench stats
+    For:
+      - static
+      - cgi
+      - fastcgi
+
+httperf:
+  * file size increase:
+    Results:
+      - response vs request
+      - bandwidth
+      - latency
+    For:
+      - static
+      - cgi
+      - latency
+
+python:
+  * avg-open.py
+  * avg-latency.py
+
+

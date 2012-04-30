@@ -164,22 +164,27 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
     client->http_req.status = STATUS_HEADER_WRITTEN;
     client->http_req.response_size = size;
     type = get_file_type((char *)data);
-    write_http_response_header(fd, type, size, 200, "OK");
+
+    // XXX FIXME TODO change the size back to size and not 6
+    write_http_response_header(fd, type, 6, 200, "OK");
 
     dbg_printf("response header written: %s on socket %d\n", file_path, fd);
 
-    // XXX Assign reader-helper to clien + keyt
+    // XXX Assign reader-helper to client + key
     epoll_obj->helper_info.hi_client = client;
+
+    // FIXME TODO XXX
     client->key = epoll_obj->key++;
+    dbg_printf("Key set to: %d\n", client->key);
 		ed_epoll_set(epoll_obj, epoll_obj->helper_info.hi_fd, EPOLLOUT, file_path);
   }
   else if (client->http_req.status == STATUS_MAP_REQUESTED) {
     char *buffer = client->buffer;
     if (strcmp(buffer, "done")) {
-      dbg_printf("stupid buffer here is %s\n", buffer);
+      dbg_printf("buffer here is %s\n", buffer);
       return SUCCESS;
-      assert(0);
     }
+    dbg_printf("buffer here is %s\n", buffer);
     dbg_printf("CHANGING STATUS TO DATA WRITING\n");
     client->http_req.status = STATUS_DATA_WRITING;
   }
@@ -192,10 +197,13 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
    
    // shmid = client->shmid;
    // shm = client->shm;  
- 
+
+    // Locate shared memory segment 
+    size = 6;
 		if ((shmid = shmget(client->key, size, 0666)) < 0) {
 						dbg_printf("something bad\n");
 		}
+    // Attach the segment to our memory space
 		if ((shm = shmat(shmid, NULL, 0)) == (char *)-1) {
 						dbg_printf("something really bad\n");
 		}
@@ -204,7 +212,7 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
 
 		old_shm = shm;
 		chunks = size / READ_CHUNK_SIZE;
-		for (i = 0; i < chunks; i++) {
+/*		for (i = 0; i < chunks; i++) {
 						memcpy(buffer, shm, READ_CHUNK_SIZE);
 						shm+=READ_CHUNK_SIZE;
 						dbg_printf("buffer: %s\n", buffer);
@@ -212,12 +220,21 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
 		} 
 		rem = size % READ_CHUNK_SIZE;
 		memcpy(buffer, shm, rem);
+*/
+    // TODO FIXME XXX HELLO BYE
+    rem = size;
+    for (i = 0; i < size; i++) {
+      buffer[i] = shm[i];
+    }
+
 		dbg_printf("buffer: %s\n", buffer);
 		write_http_response_data(fd, buffer, rem);
 
+    /* Figure this out later
 		if (shmctl(shmid, IPC_RMID, NULL) < 0) {
 						// TODO your mom
      } 
+     */
      client->http_req.status = STATUS_REQUEST_FINISH;
   }
   return SUCCESS;

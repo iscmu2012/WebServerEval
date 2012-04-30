@@ -265,14 +265,14 @@ int ed_reader_callback(struct epoll_event *event, void *data)
   else if(event->events & EPOLLHUP)
   {
     dbg_printf("Event:EPOLLHUP %d on socket %d\n", event->events, helper_fd);
+    ed_epoll_del(&ed_epoll, helper_fd);
     close_socket(helper_fd);
-    // TODO remove any callbacks or helper info 
   }
   else if(event->events & EPOLLRDHUP)
   {
     dbg_printf("Event:EPOLLRDHUP %d on socket %d\n", event->events, helper_fd);
+    ed_epoll_del(&ed_epoll, helper_fd);
     close_socket(helper_fd);
-    // TODO remove any callbacks or helper info 
   }
   else if(event->events & EPOLLOUT)
   {
@@ -292,10 +292,11 @@ int ed_reader_callback(struct epoll_event *event, void *data)
 
         dbg_printf("we have something to write on socket %d\n", helper_fd);
 
-        // XXX Mark helper process as in-use
+        // TODO Mark helper process as in-use
 
         size = client->http_req.response_size; 
         sprintf(request, "%d %d %s", client->key, size, (char *) data);
+        dbg_printf("Sent request to helper: %s\n", request);
         
         n = write(helper_fd, request, strlen(request) + 1);
         if(n != (strlen(request) + 1)) {
@@ -331,17 +332,21 @@ int ed_reader_callback(struct epoll_event *event, void *data)
    max_read = MAX_LINE;
 //    max_read = ((client->buf_len + BUF_SIZE_PER_READ) <= REQUEST_SIZE) ? BUF_SIZE_PER_READ : (REQUEST_SIZE - client->buf_len);
     // Read IPC response into helper_client->buffer
+
+    // XXX What is client->buf_len here?
     n = read(helper_fd, (client->buffer + client->buf_len), max_read);
+    dbg_printf("%d bytes(n = %d) read on socket %d\n", read_len, n, helper_fd);
 
     if(n > 0)
     {
       read_len += n;
       client->buf_len += n;
     }
-  
-    dbg_printf("%d bytes(n = %d) read on socket %d\n", read_len, n, helper_fd);
-   
-    if(n == -1)
+    else if (n == 0)
+    {
+      return SUCCESS;
+    }
+    else if(n < 0)
     {
       err_printf("read on socket %d failed. Code: %d, Error %s\n", helper_fd, errno, strerror(errno));
       if(errno == EWOULDBLOCK)
@@ -354,7 +359,8 @@ int ed_reader_callback(struct epoll_event *event, void *data)
     else
     {
       dbg_printf("read returned %s\n", client->buffer);
-      // XXX Response should be "done"
+      // XXX Response should be "done" (or part of "done", like "don")
+      // or maybe an error? fuck if i know
       write_http_response(&ed_epoll, client->fd, client->http_req.page);
 //      ed_epoll_del(&ed_epoll, ed_epoll.helper_info.hi_fd);
     }    

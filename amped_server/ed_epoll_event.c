@@ -10,6 +10,8 @@
 #include "common.h"
 #include "ed_epoll_event.h"
 
+#define INIT_KEY 1
+
 /**
  * Set a socket to non-blocking mode.
  */
@@ -49,7 +51,7 @@ int ed_epoll_init(struct ed_epoll *epoll_obj, int maxfds)
   epoll_obj->helper_info.hi_client = NULL;
 
   /* Initialize key */
-  epoll_obj->key = 500 ;
+  epoll_obj->key = INIT_KEY;
 
   for (i=0; i<maxfds; i++) 
   {

@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
   char request[MAX_LINE];
   char buffer[READ_CHUNK_SIZE];
   char file_path[MAX_LINE];
-  int size, shmid, key, len;
+  int size, shmid, key, len, i;
   char *shm;
   dbg_printf("Dummy slave started.\n");
 
@@ -44,8 +44,12 @@ int main(int argc, char *argv[])
       exit(0);
     }
 
-    dbg_printf("file request: %s\nsize: %d\n", file_path, size);
+    /* TODO Remove this block later */
+    size = 6;
+    strncpy(buffer, "hello", size);
+    buffer[size-1]='\0';
 
+    dbg_printf("Master request at slave: key: %d, size: %d, file_path: %s\n", key, size, file_path);
 
     fp = fopen(file_path, "r");
     if (fp < 0) {
@@ -61,7 +65,7 @@ int main(int argc, char *argv[])
         exit(0);
       }
       dbg_printf("key %d, shmid %d, shm %p\n", key, shmid, shm);
-      while(!feof(fp)) {
+/*      while(!feof(fp)) {
         len = fread(buffer, 1, READ_CHUNK_SIZE, fp);
         if (len < 0) {
           dbg_printf("read error\n");
@@ -70,6 +74,11 @@ int main(int argc, char *argv[])
         memcpy(shm, buffer, len);
         dbg_printf("shm: %s", shm);
         shm += len;
+      }
+*/
+/* TODO remove this for loop later */
+      for (i = 0; i < size; i++) {
+        shm[i] = buffer[i];
       }
     }
     fclose(fp);

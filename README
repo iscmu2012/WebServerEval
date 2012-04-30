@@ -1,7 +1,7 @@
 Servers:
  - Client: unix
- - Server: risk.lab.ece.cmu.local
- - Fastcgi: settlers.lab.ece.cmu.local
+ - Server: boggle.lab.ece.cmu.local 172.19.132.112
+ - Fastcgi: settlers.lab.ece.cmu.local 172.19.132.124 
 
 
 Evaluation:

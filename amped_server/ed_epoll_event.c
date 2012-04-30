@@ -10,7 +10,7 @@
 #include "common.h"
 #include "ed_epoll_event.h"
 
-#define INIT_KEY 1
+#define INIT_KEY 200
 
 /**
  * Set a socket to non-blocking mode.

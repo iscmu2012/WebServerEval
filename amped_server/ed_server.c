@@ -130,7 +130,7 @@ int ed_socket_callback(struct epoll_event *event, void *data)
   //char buf[BUF_SIZE_PER_READ];
   int read_len, fd, n;
     
-  dbg_printf("received event for socket %d\n", event->data.fd);
+//  dbg_printf("received event for socket %d\n", event->data.fd);
   //memset(buf, 0, BUF_SIZE_PER_READ);
   fd = event->data.fd;
  
@@ -154,7 +154,7 @@ int ed_socket_callback(struct epoll_event *event, void *data)
   {
       if(data)
       {
-        dbg_printf("we have something to write on socket %d\n", fd);
+//        dbg_printf("we have something to write on socket %d\n", fd);
         write_http_response(&ed_epoll, fd, data);
         if(ed_epoll.ed_clients[fd].http_req.status == STATUS_REQUEST_FINISH)
         {  
@@ -267,12 +267,22 @@ int ed_reader_callback(struct epoll_event *event, void *data)
     dbg_printf("Event:EPOLLHUP %d on socket %d\n", event->events, helper_fd);
     ed_epoll_del(&ed_epoll, helper_fd);
     close_socket(helper_fd);
+    if (ed_epoll.helper_info.hi_client != NULL) {
+      client_fd = ed_epoll.helper_info.hi_client->fd;
+      ed_epoll_del(&ed_epoll, client_fd);
+      close_socket(client_fd);
+    }
   }
   else if(event->events & EPOLLRDHUP)
   {
     dbg_printf("Event:EPOLLRDHUP %d on socket %d\n", event->events, helper_fd);
     ed_epoll_del(&ed_epoll, helper_fd);
     close_socket(helper_fd);
+    if (ed_epoll.helper_info.hi_client != NULL) {
+      client_fd = ed_epoll.helper_info.hi_client->fd;
+      ed_epoll_del(&ed_epoll, client_fd);
+      close_socket(client_fd);
+    }
   }
   else if(event->events & EPOLLOUT)
   {

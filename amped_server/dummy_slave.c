@@ -45,11 +45,12 @@ int main(int argc, char *argv[])
     }
 
     /* TODO Remove this block later */
-    size = 6;
+/*    size = 6;
     strncpy(buffer, "hello", size);
     buffer[size-1]='\0';
-
-    dbg_printf("Master request at slave: key: %d, size: %d, file_path: %s\n", key, size, file_path);
+*/
+    dbg_printf("Master request at slave: key: %d, size: %d, file_path: %s\n",
+         key, size, file_path);
 
     fp = fopen(file_path, "r");
     if (fp < 0) {
@@ -57,15 +58,15 @@ int main(int argc, char *argv[])
     }
     else {
       if ((shmid = shmget(key, size, IPC_CREAT | 0666)) < 0) {
-        dbg_printf("shmget() error\n");
+        dbg_printf("shmget() error: %s\n", strerror(errno));
         exit(0);
       }
       if ((shm = shmat(shmid, NULL, 0)) == (char *) -1) {
-        dbg_printf("shmat() error\n");
+        dbg_printf("shmat() error: %s\n", strerror(errno));
         exit(0);
       }
       dbg_printf("key %d, shmid %d, shm %p\n", key, shmid, shm);
-/*      while(!feof(fp)) {
+      while(!feof(fp)) {
         len = fread(buffer, 1, READ_CHUNK_SIZE, fp);
         if (len < 0) {
           dbg_printf("read error\n");
@@ -75,11 +76,12 @@ int main(int argc, char *argv[])
         dbg_printf("shm: %s", shm);
         shm += len;
       }
-*/
+
 /* TODO remove this for loop later */
-      for (i = 0; i < size; i++) {
+/*      for (i = 0; i < size; i++) {
         shm[i] = buffer[i];
       }
+*/
     }
     fclose(fp);
 

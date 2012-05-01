@@ -18,6 +18,7 @@
 #define STATUS_CGI_RESPONSE_WRITING 7
 #define STATUS_MAP_REQUESTED  8
 #define STATUS_MAP_DONE       9
+#define STATUS_WAITLISTED    10
 
 typedef int (*event_callback_func_t)(struct epoll_event* event, void* data);
 

@@ -172,6 +172,7 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
     if (helper_idx == -1) {
       // TODO No helpers: waitlist.
       dbg_printf("No free helpers availiable, should be waitlisted\n");
+      client->http_req.status = STATUS_WAITLISTED;
     } else {
       // Associate helper with cliet request.
       epoll_obj->helper_info[helper_idx].hi_client = client;
@@ -187,6 +188,26 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
       // Change status here only.
       client->http_req.status = STATUS_HEADER_WRITTEN;
     }
+  }
+  else if (client->http_req.status == STATUS_WAITLISTED) {
+    int helper_idx;
+    if (epoll_obj->helpers_inuse == N_HELPER_PROCS) {
+      return SUCCESS;
+    }
+    helper_idx = hi_get_next_helper(epoll_obj);
+    // Associate helper with cliet request.
+    epoll_obj->helper_info[helper_idx].hi_client = client;
+    epoll_obj->helpers_inuse++;
+
+    // Incremenet shm key.
+    client->key = epoll_obj->key++;
+    dbg_printf("Key set to: %d\n", client->key);
+
+     // Set an EPOLLOUT event.
+    ed_epoll_set(epoll_obj, epoll_obj->helper_info[helper_idx].hi_fd, EPOLLOUT, file_path);
+
+    // Change status here only.
+    client->http_req.status = STATUS_HEADER_WRITTEN;
   }
   else if (client->http_req.status == STATUS_MAP_REQUESTED) {
     char *buffer = client->buffer;

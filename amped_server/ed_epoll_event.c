@@ -46,10 +46,6 @@ int ed_epoll_init(struct ed_epoll *epoll_obj, int maxfds)
   if (!epoll_obj->ed_clients)
     return ENOMEM; 
 
-  /* Initialize helper info struct (or array) */
-  epoll_obj->helper_info.hi_fd = 0;
-  epoll_obj->helper_info.hi_client = NULL;
-
   /* Initialize key */
   epoll_obj->key = INIT_KEY;
 
@@ -72,6 +68,14 @@ int ed_epoll_init(struct ed_epoll *epoll_obj, int maxfds)
   epoll_obj->epoll_events = malloc(maxfds * sizeof(*epoll_obj->epoll_events));
   if (!epoll_obj->epoll_events)
     return ENOMEM;
+
+  /* Create the helper_info objects for all the helper processes */
+  epoll_obj->helper_info = malloc(N_HELPER_PROCS * sizeof(helper_info_t));
+  if (!epoll_obj->helper_info)
+    return ENOMEM;
+
+  /* No helpers are in use initially */
+  epoll_obj->helpers_inuse = 0;
 
   return 0;
 }
@@ -196,4 +200,39 @@ int ed_epoll_del(struct ed_epoll *epoll_obj, int fd)
   dbg_printf("deleted socket %d from epoll\n", fd);
 
   return SUCCESS;
+}
+
+int hi_get_helper_index(struct ed_epoll *epoll_obj, int fd)
+{
+  int i;
+  for (i = 0; i < N_HELPER_PROCS; i++) {
+    if (epoll_obj->helper_info[i].hi_fd == fd) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+int hi_get_next_helper(struct ed_epoll *epoll_obj)
+{
+  int i;
+  for (i = 0; i < N_HELPER_PROCS; i++) {
+    if (!epoll_obj->helper_info[i].hi_client) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+int hi_get_helper_for_fd(struct ed_epoll *epoll_obj, int req_fd)
+{
+  int i;
+  for (i = 0; i < N_HELPER_PROCS; i++) {
+    if (epoll_obj->helper_info[i].hi_client) {
+       if (epoll_obj->helper_info[i].hi_client->fd == req_fd) {
+         return i;
+       }
+    }
+  }
+  return -1;
 }

@@ -1,4 +1,4 @@
-EXE = server fastcgi dummy_slave libhello.so libsumnumbers.so
+EXE = server fastcgi reader_slave libhello.so libsumnumbers.so
 CC = gcc
 CFLAGS = -g -Wall -rdynamic 
 LDFLAGS = -lpthread -ldl
@@ -17,8 +17,8 @@ server: $(WEBOBJ)
 fastcgi: $(FASTCGIOBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
-dummy_slave: dummy_slave.c
-	$(CC) $(CFLAGS) -o dummy_slave dummy_slave.c
+reader_slave: reader_slave.c
+	$(CC) $(CFLAGS) -o reader_slave reader_slave.c
 
 hello.o: hello.c
 	$(CC) -fpic -c hello.c $(CFLAGS)

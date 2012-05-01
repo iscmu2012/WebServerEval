@@ -138,8 +138,7 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
   }
   /* 2nd stage: write http header */
   else if(client->http_req.status == STATUS_FILE_FOUND)
-  { int shmid;
-    char *shm;
+  { int helper_idx;
     fp = client->http_req.fp;
     if(fseek(fp, 0, SEEK_END) == -1)
     {
@@ -161,21 +160,33 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
     }
     fclose(fp);
 
-    client->http_req.status = STATUS_HEADER_WRITTEN;
     client->http_req.response_size = size;
     type = get_file_type((char *)data);
 
-    // XXX FIXME TODO change the size back to size and not 6
     write_http_response_header(fd, type, size, 200, "OK");
 
     dbg_printf("response header written: %s on socket %d\n", file_path, fd);
 
-    // XXX Assign reader-helper to client + key
-    epoll_obj->helper_info.hi_client = client;
+    // Find next free helper.
+    helper_idx = hi_get_next_helper(epoll_obj);
+    if (helper_idx == -1) {
+      // TODO No helpers: waitlist.
+      dbg_printf("No free helpers availiable, should be waitlisted\n");
+    } else {
+      // Associate helper with cliet request.
+      epoll_obj->helper_info[helper_idx].hi_client = client;
+      epoll_obj->helpers_inuse++;
 
-    client->key = epoll_obj->key++;
-    dbg_printf("Key set to: %d\n", client->key);
-		ed_epoll_set(epoll_obj, epoll_obj->helper_info.hi_fd, EPOLLOUT, file_path);
+      // Incremenet shm key.
+      client->key = epoll_obj->key++;
+      dbg_printf("Key set to: %d\n", client->key);
+
+      // Set an EPOLLOUT event.
+  		ed_epoll_set(epoll_obj, epoll_obj->helper_info[helper_idx].hi_fd, EPOLLOUT, file_path);
+
+      // Change status here only.
+      client->http_req.status = STATUS_HEADER_WRITTEN;
+    }
   }
   else if (client->http_req.status == STATUS_MAP_REQUESTED) {
     char *buffer = client->buffer;
@@ -190,13 +201,10 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
   /* 3rd stage: write response data only a single chunk in one call */
   else if(client->http_req.status == STATUS_DATA_WRITING)
   {
-    int shmid, chunks, i, rem;
+    int shmid, chunks, i, rem, helper_idx;
     char *shm, *old_shm;
     size = client->http_req.response_size;
    
-   // shmid = client->shmid;
-   // shm = client->shm;  
-
     // Locate shared memory segment 
 		if ((shmid = shmget(client->key, size, 0666)) < 0) {
 						dbg_printf("something bad\n");
@@ -210,31 +218,35 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
 
 		old_shm = shm;
 		chunks = size / READ_CHUNK_SIZE;
+    // Write response chunk by chunk.
 		for (i = 0; i < chunks; i++) {
 						memcpy(buffer, shm, READ_CHUNK_SIZE);
 						shm+=READ_CHUNK_SIZE;
-	//					dbg_printf("buffer: %s\n", buffer);
 						write_http_response_data(fd, buffer, READ_CHUNK_SIZE);
 		} 
 		rem = size % READ_CHUNK_SIZE;
 		memcpy(buffer, shm, rem);
 
-    // TODO FIXME XXX HELLO BYE
-/*    rem = size;
-    for (i = 0; i < size; i++) {
-      buffer[i] = shm[i];
-    }
-*/
-//		dbg_printf("buffer: %s\n", buffer);
+    // Send remainder to client;
 		write_http_response_data(fd, buffer, rem);
 
-    // Figure this out later
+    // unlink shared memory after done using it.
 		if (shmctl(shmid, IPC_RMID, NULL) < 0) {
         dbg_printf("shmctl() error: %s\n", strerror(errno));
         assert(0);
      } 
      
      dbg_printf("shmctl() unlink SUCCESS\n");
+
+     // Free the helper again and decrease inuse counter.
+     helper_idx = hi_get_helper_for_fd(epoll_obj, client->fd);
+     if (helper_idx == -1) {
+       dbg_printf("WTF this should not be happening!\n");
+       assert(0);
+     }
+     epoll_obj->helper_info[helper_idx].hi_client = NULL;
+     epoll_obj->helpers_inuse--;
+     
      client->http_req.status = STATUS_REQUEST_FINISH;
   }
   return SUCCESS;

@@ -1,4 +1,4 @@
-cscope 15 $HOME/servers/GP/WebServerEval/amped_server               0000525354
+cscope 15 $HOME/servers/GP/WebServerEval/amped_server               0000533093
 	@common.c
 
 1 
@@ -789,166 +789,6 @@ wrôe_hâp_ª•⁄£_îr‹
 fd
 );
 
-	@dummy_slave.c
-
-1 
-	~<°dlib.h
->
-
-2 
-	~<°dio.h
->
-
-3 
-	~<uni°d.h
->
-
-4 
-	~<°rögs.h
->
-
-5 
-	~<pwd.h
->
-
-6 
-	~<î∫o.h
->
-
-7 
-	~<sys/ty≥s.h
->
-
-8 
-	~<sys/°©.h
->
-
-9 
-	~<sys/time.h
->
-
-10 
-	~"comm⁄.h
-"
-
-12 
-	#OUTFD
- 0
-
-	)
-
-15 
-	$maö
-(
-¨gc
-, *
-¨gv
-[])
-
-17 
-£ndRïly
- = 0;
-
-18 *
-ª∂y
- = "done";
-
-19 
-ªque°
-[
-MAX_LINE
-];
-
-20 
-	`dbg_¥ötf
-("Dummy slave started.\n");
-
-23 
-ªt
-;
-
-24 i‡(
-£ndRïly
-) {
-
-25 
-	`dbg_¥ötf
-("wrôögÑïlyÅÿsockë: %s\n", 
-ª∂y
-);
-
-26 
-	`wrôe
-(
-OUTFD
-, 
-ª∂y
-, 1+
-	`°æí
-(reply));
-
-27 
-	`dbg_¥ötf
-("wrŸêª∂yÅÿsockë: %s\n", 
-ª∂y
-);
-
-28 
-£ndRïly
- = 0;
-
-30 
-£ndRïly
- = 1;
-
-31 
-ª∂y
- = "done";
-
-33 
-ªt
- = 
-	`ªad
-(0, 
-ªque°
-, 
-MAX_LINE
-);
-
-34 
-	`dbg_¥ötf
-("ªadÑeque°: %s\n", 
-ªque°
-);
-
-35 i‡(
-ªt
- == 0) {
-
-36 
-	`dbg_¥ötf
-("read slaveÑeturned 0.\n");
-
-37 
-	`exô
-(0);
-
-39 i‡(
-ªt
- < 0) {
-
-40 
-	`dbg_¥ötf
-("read slave hadÇegativeÑeturn value.\n");
-
-41 
-	`exô
-(0);
-
-45 
-	}
-}
-
 	@ed_epoll_event.c
 
 1 
@@ -987,17 +827,23 @@ MAX_LINE
 	~"ed_ïﬁl_evít.h
 "
 
-16 
+13 
+	#INIT_KEY
+ 200
+
+	)
+
+18 
 	$£ä⁄block
 (
 fd
 )
 
-18 
+20 
 Êags
 ;
 
-20 
+22 
 Êags
  = 
 	`f˙é
@@ -1007,21 +853,21 @@ fd
 F_GETFL
 );
 
-21 i‡(
+23 i‡(
 Êags
  < 0)
 
-22  
+24  
 Êags
 ;
 
-23 
+25 
 Êags
  |
 O_NONBLOCK
 ;
 
-24 i‡(
+26 i‡(
 	`f˙é
 (
 fd
@@ -1031,11 +877,11 @@ F_SETFL
 Êags
 ) < 0)
 
-28 
+30 
 	}
 }
 
-34 
+36 
 	$ed_ïﬁl_öô
 (
 ed_ïﬁl
@@ -1045,27 +891,27 @@ ed_ïﬁl
 maxfds
 )
 
-36 
+38 
 i
 ;
 
-38 
+40 
 	`dbg_¥ötf
 ("ed_epoll_init\n");
 
-40 
+42 
 ïﬁl_obj
 ->
 maxfds
  = maxfds;
 
-41 
+43 
 ïﬁl_obj
 ->
 fds_u£d
  = 0;
 
-43 
+45 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1077,17 +923,17 @@ ed_˛õ¡_t
 maxfds
 );
 
-44 i‡(!
+46 i‡(!
 ïﬁl_obj
 ->
 ed_˛õ¡s
 )
 
-45  
+47  
 ENOMEM
 ;
 
-48 
+50 
 ïﬁl_obj
 ->
 hñ≥r_öfo
@@ -1095,7 +941,7 @@ hñ≥r_öfo
 hi_fd
  = 0;
 
-49 
+51 
 ïﬁl_obj
 ->
 hñ≥r_öfo
@@ -1105,13 +951,21 @@ hi_˛õ¡
 NULL
 ;
 
-51 
+54 
+ïﬁl_obj
+->
+key
+ = 
+INIT_KEY
+;
+
+56 
 i
 =0; i<
 maxfds
 ; i++)
 
-53 
+58 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1123,7 +977,7 @@ i
 NULL
 ;
 
-54 
+59 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1135,7 +989,7 @@ d©a
 NULL
 ;
 
-55 
+60 
 	`mem£t
 (
 ïﬁl_obj
@@ -1149,7 +1003,7 @@ buf„r
 REQUEST_SIZE
 );
 
-56 
+61 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1159,7 +1013,7 @@ i
 buf_Àn
  = 0;
 
-57 
+62 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1169,7 +1023,7 @@ i
 buf_∑r£d_Àn
  = 0;
 
-58 
+63 
 	`mem£t
 (&
 ïﬁl_obj
@@ -1181,7 +1035,7 @@ i
 hâp_ªq
 , 0, (epoll_obj->ed_clients[i].http_req));
 
-62 
+67 
 ïﬁl_obj
 ->
 ïﬁl_fd
@@ -1191,17 +1045,17 @@ hâp_ªq
 maxfds
 );
 
-64 i‡(
+69 i‡(
 ïﬁl_obj
 ->
 ïﬁl_fd
  == -1)
 
-65  
+70  
 î∫o
 ;
 
-67 
+72 
 ïﬁl_obj
 ->
 ïﬁl_evíts
@@ -1211,21 +1065,49 @@ maxfds
 maxfds
  * (*epoll_obj->epoll_events));
 
-68 i‡(!
+73 i‡(!
 ïﬁl_obj
 ->
 ïﬁl_evíts
 )
 
-69  
+74  
 ENOMEM
 ;
 
-72 
+77 
+ïﬁl_obj
+->
+hñ≥r_öfo
+ = 
+	`mÆloc
+(
+N_HELPER_PROCS
+ * (
+hñ≥r_öfo_t
+));
+
+78 i‡(!
+ïﬁl_obj
+->
+hñ≥r_öfo
+)
+
+79  
+ENOMEM
+;
+
+82 
+ïﬁl_obj
+->
+hñ≥rs_öu£
+ = 0;
+
+85 
 	}
 }
 
-78 
+91 
 	$ed_ïﬁl_di•©ch_evíts
 (
 ed_ïﬁl
@@ -1235,13 +1117,13 @@ ed_ïﬁl
 timeout
 )
 
-80 
+93 
 ïﬁl_evít
 *Épﬁl_evíà
 NULL
 ;
 
-81 
+94 
 ed_˛õ¡_t
 * 
 ed_˛õ¡
@@ -1249,7 +1131,7 @@ ed_˛õ¡
 NULL
 ;
 
-82 
+95 
 i
 , 
 nfds
@@ -1257,7 +1139,7 @@ nfds
 evít_fd
 ;
 
-85 
+98 
 nfds
  = 
 	`ïﬁl_waô
@@ -1273,13 +1155,13 @@ maxfds
 timeout
 );
 
-87 
+100 
 i
  = 0; i < 
 nfds
 ; i++)
 
-89 
+102 
 ïﬁl_evít
  = &
 ïﬁl_obj
@@ -1289,7 +1171,7 @@ nfds
 i
 ];
 
-90 
+103 
 evít_fd
  = 
 ïﬁl_evít
@@ -1299,7 +1181,7 @@ d©a
 fd
 ;
 
-91 if(
+104 if(
 evít_fd
  < 0 || 
 ïﬁl_obj
@@ -1307,7 +1189,7 @@ evít_fd
 fds_u£d
  <= 0 )
 
-93 
+106 
 	`dbg_¥ötf
 ("nfd†%d. ign‹ögÉví o¿fd %d. fd†ö u£ %d", 
 nfds
@@ -1319,7 +1201,7 @@ evít_fd
 fds_u£d
 );
 
-97 
+110 
 ed_˛õ¡
  = &
 ïﬁl_obj
@@ -1329,7 +1211,7 @@ ed_˛õ¡s
 evít_fd
 ];
 
-98 if(
+111 if(
 ed_˛õ¡
  =
 NULL
@@ -1337,7 +1219,7 @@ NULL
 ˇŒback
  == NULL)
 
-100 
+113 
 	`îr_¥ötf
 ("how comêf‹Évít_fd: %d cÆlbackáddr: %p\n", 
 evít_fd
@@ -1347,7 +1229,7 @@ ed_˛õ¡
 ˇŒback
 );
 
-104 
+117 
 ed_˛õ¡
 ->
 	`ˇŒback
@@ -1357,15 +1239,15 @@ ed_˛õ¡
 d©a
 );
 
-107  
+120  
 SUCCESS
 ;
 
-108 
+121 
 	}
 }
 
-113 
+126 
 	$ed_ïﬁl_add
 (
 ed_ïﬁl
@@ -1381,13 +1263,13 @@ evít_ˇŒback_func_t
 d©a
 )
 
-115 
+128 
 ïﬁl_evít
  
 evít
 ;
 
-117 if(
+130 if(
 fd
  >
 ïﬁl_obj
@@ -1395,17 +1277,17 @@ fd
 maxfds
 )
 
-119 
+132 
 	`îr_¥ötf
 ("fd %d, in¸ó£ maxfd†vÆue", 
 fd
 );
 
-120  
+133  
 FAILURE
 ;
 
-123 
+136 
 	`mem£t
 (&
 evít
@@ -1413,7 +1295,7 @@ evít
 ïﬁl_evít
 ));
 
-124 
+137 
 evít
 .
 d©a
@@ -1421,7 +1303,7 @@ d©a
 fd
  = fd;
 
-125 
+138 
 evít
 .
 evíts
@@ -1437,7 +1319,7 @@ EPOLLHUP
 EPOLLRDHUP
 ;
 
-126 i‡(
+139 i‡(
 	`ïﬁl_˘l
 (
 ïﬁl_obj
@@ -1451,7 +1333,7 @@ fd
 evít
 ) == -1 )
 
-128 
+141 
 	`îr_¥ötf
 ("Eº‹: couldÇŸáddÉpﬁ»evíàf‹ fd %d. Code: %d\n", 
 fd
@@ -1459,17 +1341,17 @@ fd
 î∫o
 );
 
-129  
+142  
 î∫o
 ;
 
-132 
+145 
 ïﬁl_obj
 ->
 fds_u£d
 ++;
 
-133 
+146 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1479,7 +1361,7 @@ fd
 ˇŒback
  = callback;
 
-134 
+147 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1489,7 +1371,7 @@ fd
 d©a
  = data;
 
-135 
+148 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1497,21 +1379,21 @@ ed_˛õ¡s
 fd
 ].fd = fd;
 
-137 
+150 
 	`dbg_¥ötf
 ("addögÇew fd %d\n", 
 fd
 );
 
-139  
+152  
 SUCCESS
 ;
 
-140 
+153 
 	}
 }
 
-145 
+158 
 	$ed_ïﬁl_£t
 (
 ed_ïﬁl
@@ -1525,13 +1407,13 @@ evítcode
 d©a
 )
 
-147 
+160 
 ïﬁl_evít
  
 evít
 ;
 
-149 
+162 
 	`mem£t
 (&
 evít
@@ -1539,7 +1421,7 @@ evít
 ïﬁl_evít
 ));
 
-150 
+163 
 evít
 .
 d©a
@@ -1547,13 +1429,13 @@ d©a
 fd
  = fd;
 
-151 
+164 
 evít
 .
 evíts
  = 0;
 
-152 
+165 
 evít
 .
 evíts
@@ -1567,7 +1449,7 @@ EPOLLHUP
 EPOLLRDHUP
 ;
 
-153 if(
+166 if(
 	`ïﬁl_˘l
 (
 ïﬁl_obj
@@ -1581,7 +1463,7 @@ fd
 evít
 ) == -1 )
 
-155 
+168 
 	`îr_¥ötf
 ("couldÇŸ modifyÉvít†f‹ sockë %d, Code: %d\n", 
 fd
@@ -1589,11 +1471,11 @@ fd
 î∫o
 );
 
-156  
+169  
 FAILURE
 ;
 
-159 
+172 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1603,15 +1485,15 @@ fd
 d©a
  = data;
 
-161  
+174  
 SUCCESS
 ;
 
-162 
+175 
 	}
 }
 
-167 
+180 
 	$ed_ïﬁl_dñ
 (
 ed_ïﬁl
@@ -1621,13 +1503,13 @@ ed_ïﬁl
 fd
 )
 
-169 
+182 
 ïﬁl_evít
  
 evít
 ;
 
-171 
+184 
 	`mem£t
 (&
 evít
@@ -1635,7 +1517,7 @@ evít
 ïﬁl_evít
 ));
 
-172 
+185 
 evít
 .
 d©a
@@ -1643,13 +1525,13 @@ d©a
 fd
  = fd;
 
-173 
+186 
 evít
 .
 evíts
  = -1;
 
-176 if(
+189 if(
 	`ïﬁl_˘l
 (
 ïﬁl_obj
@@ -1663,23 +1545,23 @@ fd
 evít
 ) == -1)
 
-178 
+191 
 	`îr_¥ötf
 ("couldÇŸ dñëêfd %d\n", 
 fd
 );
 
-179  
+192  
 FAILURE
 ;
 
-182 
+195 
 ïﬁl_obj
 ->
 fds_u£d
 --;
 
-183 
+196 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1691,7 +1573,7 @@ fd
 NULL
 ;
 
-184 
+197 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1703,7 +1585,7 @@ d©a
 NULL
 ;
 
-185 
+198 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1711,7 +1593,7 @@ ed_˛õ¡s
 fd
 ].fd = 0;
 
-186 
+199 
 	`mem£t
 (
 ïﬁl_obj
@@ -1725,7 +1607,7 @@ buf„r
 REQUEST_SIZE
 );
 
-187 
+200 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1735,7 +1617,7 @@ fd
 buf_Àn
  = 0;
 
-188 
+201 
 ïﬁl_obj
 ->
 ed_˛õ¡s
@@ -1745,7 +1627,7 @@ fd
 buf_∑r£d_Àn
  = 0;
 
-189 
+202 
 	`mem£t
 (&
 ïﬁl_obj
@@ -1757,17 +1639,93 @@ fd
 hâp_ªq
 , 0, (epoll_obj->ed_clients[fd].http_req));
 
-191 
+204 
 	`dbg_¥ötf
 ("dñëed sockë %d fromÉpﬁl\n", 
 fd
 );
 
-193  
+206  
 SUCCESS
 ;
 
-194 
+207 
+	}
+}
+
+209 
+	$hi_gë_hñ≥r_ödex
+(
+ed_ïﬁl
+ *
+ïﬁl_obj
+, 
+fd
+)
+
+211 
+i
+;
+
+212 
+i
+ = 0; i < 
+N_HELPER_PROCS
+; i++) {
+
+213 i‡(
+ïﬁl_obj
+->
+hñ≥r_öfo
+[
+i
+].
+hi_fd
+ =
+fd
+) {
+
+214  
+i
+;
+
+218 
+	}
+}
+
+220 
+	$hi_gë_√xt_hñ≥r
+(
+ed_ïﬁl
+ *
+ïﬁl_obj
+)
+
+222 
+i
+;
+
+223 
+i
+ = 0; i < 
+N_HELPER_PROCS
+; i++) {
+
+224 i‡(!
+ïﬁl_obj
+->
+hñ≥r_öfo
+[
+i
+].
+hi_˛õ¡
+) {
+
+225  
+i
+;
+
+229 
 	}
 }
 
@@ -1805,67 +1763,73 @@ _EPOLL_EVENT_H_
 
 	)
 
-10 
+9 
+	#N_HELPER_PROCS
+ 64
+
+	)
+
+11 
 	#STATUS_REQUEST_START
  0
 
 	)
 
-11 
+12 
 	#STATUS_REQUEST_FINISH
  1
 
 	)
 
-12 
+13 
 	#STATUS_FILE_FOUND
  2
 
 	)
 
-13 
+14 
 	#STATUS_HEADER_WRITTEN
  3
 
 	)
 
-14 
+15 
 	#STATUS_DATA_WRITING
  4
 
 	)
 
-15 
+16 
 	#STATUS_CGI_FILE_FOUND
  5
 
 	)
 
-16 
+17 
 	#STATUS_CGI_PROC_RUNNING
  6
 
 	)
 
-17 
+18 
 	#STATUS_CGI_RESPONSE_WRITING
  7
 
 	)
 
-18 
-	#STATUS_DUMMY_START
+19 
+	#STATUS_MAP_REQUESTED
  8
 
 	)
 
-19 
-	#STATUS_DUMMY_WAITING
+20 
+	#STATUS_MAP_DONE
  9
 
 	)
 
-21 (*
+22 (*
 	tevít_ˇŒback_func_t
 )(
 	tïﬁl_evít
@@ -1875,155 +1839,175 @@ _EPOLL_EVENT_H_
 	td©a
 );
 
-24 
+25 
 	s∑r£d_ªque°
  {
 
-25 
+26 
 ∑ge
 [
 MAX_LINE
 ];
 
-26 
+27 
 °©us
 ;
 
-27 
+28 
 FILE
  *
 Â
 ;
 
-28 
+29 
 ª•⁄£_size
 ;
 
-29 
+30 
 cgi_comm™d
 [
 MAX_LINE
 ];
 
-30 
+31 
 cgi_quîy_°r
 [
 MAX_LINE
 ];
 
-31 } 
+32 } 
 	t∑r£d_ªque°_t
 ;
 
-34 
+35 
 	sed_˛õ¡
  {
 
-35 
+36 
 evít_ˇŒback_func_t
  
 ˇŒback
 ;
 
-36 *
+37 *
 d©a
 ;
 
-37 
+38 
 fd
 ;
 
-38 
+39 
 buf„r
 [
 REQUEST_SIZE
 ];
 
-39 
+40 
 buf_Àn
 ;
 
-40 
+41 
 buf_∑r£d_Àn
 ;
 
-41 
+42 
 ∑r£d_ªque°_t
  
 hâp_ªq
 ;
 
-42 } 
+43 
+key
+;
+
+44 
+shmid
+;
+
+45 *
+shm
+;
+
+46 } 
 	ted_˛õ¡_t
 ;
 
-45 
+49 
 	shñ≥r_öfo
  {
 
-46 
+50 
 hi_fd
 ;
 
-47 
+51 
 ed_˛õ¡
  *
 hi_˛õ¡
 ;
 
-48 } 
+52 } 
 	thñ≥r_öfo_t
 ;
 
-51 
+55 
 	sed_ïﬁl
  {
 
-52 
+56 
 maxfds
 ;
 
-53 
+57 
+hñ≥rs_öu£
+;
+
+58 
 ïﬁl_fd
 ;
 
-54 
+59 
 li°íî_fd
 ;
 
-55 
+60 
 ed_˛õ¡_t
  *
 ed_˛õ¡s
 ;
 
-56 
+61 
 hñ≥r_öfo_t
- 
+ *
 hñ≥r_öfo
 ;
 
-57 
+62 
 ïﬁl_evít
  *
 ïﬁl_evíts
 ;
 
-58 
+63 
 fds_u£d
 ;
 
-59 } 
+64 
+key
+;
+
+65 } 
 	ted_ïﬁl_t
 ;
 
-61 
+67 
 	`£ä⁄block
 (
 fd
 );
 
-62 
+68 
 	`ed_ïﬁl_öô
 (
 ed_ïﬁl
@@ -2031,7 +2015,7 @@ ed_ïﬁl
 maxfds
 );
 
-63 
+69 
 	`ed_ïﬁl_add
 (
 ed_ïﬁl
@@ -2045,7 +2029,7 @@ evít_ˇŒback_func_t
 d©a
 );
 
-64 
+70 
 	`ed_ïﬁl_£t
 (
 ed_ïﬁl
@@ -2059,7 +2043,7 @@ evítcode
 d©a
 );
 
-65 
+71 
 	`ed_ïﬁl_dñ
 (
 ed_ïﬁl
@@ -2067,7 +2051,7 @@ ed_ïﬁl
 fd
 );
 
-67 
+73 
 	`ed_ïﬁl_di•©ch_evíts
 (
 ed_ïﬁl
@@ -2112,18 +2096,32 @@ timeout
 >
 
 9 
+	~<sys/mm™.h
+>
+
+10 
+	~<sys/shm.h
+>
+
+11 
 	~"comm⁄.h
 "
 
-10 
+12 
 	~"ed_hâp.h
 "
 
-11 
+13 
 	~"ed_£rvî.h
 "
 
-16 
+14 
+	#KEY
+ 789
+
+	)
+
+19 
 	$¥o˚ss_hâp_ªque°
 (*
 hódî
@@ -2133,45 +2131,45 @@ hódî
 hâp_ªq
 )
 
-18 
+21 
 ªgex_t
  
 ªg
 ;
 
-20 *
+23 *
 ∑âîn
- = "^(GET) (.*) HTTP/1\\.1\r\n((.*)\r\n)*$";
+ = "^(GET) (.*) HTTP/1\\.[01]\r\n((.*)\r\n)*$";
 
-21 
+24 
 îrbuf
 [
 MAX_LINE
 ];
 
-22 
+25 
 îrcode
 ;
 
-26 
+29 
 ªgm©ch_t
  
 pm©ch
 [5];
 
-27 
+30 
 mëhod
 [
 MAX_LINE
 ];
 
-29 
+32 
 mëhod_Àn
 , 
 ∑ge_Àn
 ;
 
-31 if((
+34 if((
 îrcode
  = 
 	`ªgcomp
@@ -2185,7 +2183,7 @@ REG_ICASE
 REG_EXTENDED
 )) != 0)
 
-33 
+36 
 	`ªgîr‹
 (
 îrcode
@@ -2197,7 +2195,7 @@ REG_EXTENDED
 MAX_LINE
 );
 
-34 
+37 
 	`îr_¥ötf
 ("ªgcomp: Faûed. Code: %d, Eº‹: %s\n", 
 îrcode
@@ -2205,11 +2203,11 @@ MAX_LINE
 îrbuf
 );
 
-35  
+38  
 FAILURE
 ;
 
-38 if((
+41 if((
 îrcode
  = 
 	`ªgexec
@@ -2221,23 +2219,23 @@ hódî
 pm©ch
 , 0)) != 0)
 
-40 
+43 
 	`ªg‰ì
 (&
 ªg
 );
 
-41  
+44  
 FAILURE
 ;
 
-51 
+54 
 	`ªg‰ì
 (&
 ªg
 );
 
-53 
+56 
 	`mem£t
 (
 mëhod
@@ -2245,7 +2243,7 @@ mëhod
 MAX_LINE
 );
 
-55 
+58 
 mëhod_Àn
  = 
 pm©ch
@@ -2255,7 +2253,7 @@ rm_eo
 rm_so
 ;
 
-56 
+59 
 ∑ge_Àn
  = 
 pm©ch
@@ -2265,7 +2263,7 @@ rm_eo
 rm_so
 ;
 
-58 
+61 
 	`°∫˝y
 (
 mëhod
@@ -2279,7 +2277,7 @@ rm_so
 mëhod_Àn
 );
 
-59 
+62 
 	`°∫˝y
 (
 hâp_ªq
@@ -2295,7 +2293,7 @@ rm_so
 ∑ge_Àn
 );
 
-62 if(
+65 if(
 	`°∫cmp
 (
 hâp_ªq
@@ -2303,7 +2301,7 @@ hâp_ªq
 ∑ge
 , "/", 2) == 0)
 
-64 
+67 
 	`°r˝y
 (
 hâp_ªq
@@ -2311,7 +2309,7 @@ hâp_ªq
 ∑ge
 , "/index.html");
 
-67 
+70 
 	`dbg_¥ötf
 ("hódî = %s, mëhod = %s,Öagê%s\n", 
 hódî
@@ -2323,15 +2321,15 @@ hâp_ªq
 ∑ge
 );
 
-70  
+73  
 SUCCESS
 ;
 
-71 
+74 
 	}
 }
 
-77 
+80 
 	$wrôe_hâp_ª•⁄£
 (
 ed_ïﬁl
@@ -2343,13 +2341,13 @@ fd
 d©a
 )
 
-79 *
+83 *
 ty≥
  = 
 NULL
 ;
 
-80 
+84 
 FILE
  *
 Â
@@ -2357,35 +2355,31 @@ FILE
 NULL
 ;
 
-81 
+85 
 ssize_t
  
 size
 ;
 
-82 
-buf„r
-[
-READ_CHUNK_SIZE
-];
-
-83 
+86 
 fûe_∑th
 [
 MAX_LINE
 ];
 
-84 
+87 
+buf„r
+[
+READ_CHUNK_SIZE
+];
+
+88 
 ed_˛õ¡_t
  *
 ˛õ¡
 ;
 
-85 
-Àn
-;
-
-87 
+90 
 ˛õ¡
  = &
 ïﬁl_obj
@@ -2395,7 +2389,7 @@ ed_˛õ¡s
 fd
 ];
 
-88 
+91 
 	`mem£t
 (
 fûe_∑th
@@ -2403,7 +2397,7 @@ fûe_∑th
 MAX_LINE
 );
 
-89 
+92 
 	`°r˝y
 (
 fûe_∑th
@@ -2411,7 +2405,7 @@ fûe_∑th
 WWW_PATH
 );
 
-90 
+93 
 	`°∫ˇt
 (
 fûe_∑th
@@ -2421,7 +2415,7 @@ d©a
 MAX_LINE
  - 5);
 
-93 if(
+96 if(
 ˛õ¡
 ->
 hâp_ªq
@@ -2431,7 +2425,7 @@ hâp_ªq
 STATUS_CGI_FILE_FOUND
  ||
 
-94 
+97 
 ˛õ¡
 ->
 hâp_ªq
@@ -2441,7 +2435,7 @@ hâp_ªq
 STATUS_CGI_PROC_RUNNING
  ||
 
-95 
+98 
 ˛õ¡
 ->
 hâp_ªq
@@ -2451,7 +2445,7 @@ hâp_ªq
 STATUS_CGI_RESPONSE_WRITING
 )
 
-97 
+100 
 	`wrôe_hâp_cgi_ª•⁄£
 (
 ïﬁl_obj
@@ -2461,11 +2455,11 @@ fûe_∑th
 fd
 );
 
-98  
+101  
 SUCCESS
 ;
 
-101 if(
+104 if(
 ˛õ¡
 ->
 hâp_ªq
@@ -2475,13 +2469,13 @@ hâp_ªq
 STATUS_REQUEST_START
 )
 
-104 if(
+107 if(
 	`°∫cmp
 ((*)
 d©a
 , "/cgi-bin/", 9) == 0)
 
-106 
+109 
 	`wrôe_hâp_cgi_ª•⁄£
 (
 ïﬁl_obj
@@ -2491,17 +2485,17 @@ fûe_∑th
 fd
 );
 
-107  
+110  
 SUCCESS
 ;
 
-109 if(
+112 if(
 	`°∫cmp
 ((*)
 d©a
 , "/fastcgi-bin/", 13) == 0)
 
-111 
+114 
 	`wrôe_hâp_Á°cgi_ª•⁄£
 (
 ïﬁl_obj
@@ -2511,7 +2505,7 @@ d©a
 fd
 );
 
-112 
+115 
 ˛õ¡
 ->
 hâp_ªq
@@ -2521,11 +2515,11 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-113  
+116  
 SUCCESS
 ;
 
-117 
+120 
 Â
  = 
 	`f›í
@@ -2533,25 +2527,25 @@ SUCCESS
 fûe_∑th
 , "r");
 
-118 if(
+121 if(
 Â
  =
 NULL
 )
 
-120 
+123 
 	`îr_¥ötf
 ("ªque°ed fûênŸ found: %s\n", 
 fûe_∑th
 );
 
-121 
+124 
 	`wrôe_hâp_ª•⁄£_îr‹
 (404, 
 fd
 );
 
-122 
+125 
 ˛õ¡
 ->
 hâp_ªq
@@ -2561,11 +2555,11 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-123  
+126  
 FAILURE
 ;
 
-126 
+129 
 ˛õ¡
 ->
 hâp_ªq
@@ -2573,77 +2567,39 @@ hâp_ªq
 Â
  = fp;
 
-127 
+132 
+	`mem£t
+(
+˛õ¡
+->
+buf„r
+, 0, 
+READ_CHUNK_SIZE
+);
+
+133 
+˛õ¡
+->
+buf_Àn
+ = 0;
+
+135 
 	`dbg_¥ötf
 ("Fûêfound: %s\n", 
 fûe_∑th
 );
 
-129 
-ïﬁl_obj
-->
-hñ≥r_öfo
-.
-hi_˛õ¡
- = 
+136 
 ˛õ¡
+->
+hâp_ªq
+.
+°©us
+ = 
+STATUS_FILE_FOUND
 ;
 
-130 
-	`ed_ïﬁl_£t
-(
-ïﬁl_obj
-,Épﬁl_obj->
-hñ≥r_öfo
-.
-hi_fd
-, 
-EPOLLOUT
-, "blaaaaa");
-
-131 
-ïﬁl_obj
-->
-hñ≥r_öfo
-.
-hi_˛õ¡
-->
-hâp_ªq
-.
-°©us
- = 
-STATUS_DUMMY_START
-;;
-
-134 if(
-˛õ¡
-->
-hâp_ªq
-.
-°©us
- =
-STATUS_DUMMY_START
-)
-
-136 
-	`dbg_¥ötf
-("in dummy start state\n");
-
-138 if(
-˛õ¡
-->
-hâp_ªq
-.
-°©us
- =
-STATUS_DUMMY_WAITING
-)
-
-140 
-	`dbg_¥ötf
-("in dummy writing state\n");
-
-145 if(
+140 if(
 ˛õ¡
 ->
 hâp_ªq
@@ -2653,7 +2609,17 @@ hâp_ªq
 STATUS_FILE_FOUND
 )
 
-147 
+141 { 
+shmid
+, 
+hñ≥r_idx
+;
+
+142 *
+shm
+;
+
+143 
 Â
  = 
 ˛õ¡
@@ -2661,7 +2627,7 @@ STATUS_FILE_FOUND
 hâp_ªq
 .fp;
 
-148 if(
+144 if(
 	`f£ek
 (
 Â
@@ -2669,25 +2635,25 @@ hâp_ªq
 SEEK_END
 ) == -1)
 
-150 
+146 
 	`îr_¥ötf
 ("f£ekÉº‹: %s\n", 
 fûe_∑th
 );
 
-151 
+147 
 	`f˛o£
 (
 Â
 );
 
-152 
+148 
 	`wrôe_hâp_ª•⁄£_îr‹
 (500, 
 fd
 );
 
-153 
+149 
 ˛õ¡
 ->
 hâp_ªq
@@ -2697,11 +2663,11 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-154  
+150  
 FAILURE
 ;
 
-157 
+153 
 size
  = 
 	`·ñl
@@ -2709,29 +2675,29 @@ size
 Â
 );
 
-158 if(
+154 if(
 size
  == -1)
 
-160 
+156 
 	`îr_¥ötf
 ("·ñ»îr‹: %s\n", 
 fûe_∑th
 );
 
-161 
+157 
 	`f˛o£
 (
 Â
 );
 
-162 
+158 
 	`wrôe_hâp_ª•⁄£_îr‹
 (500, 
 fd
 );
 
-163 
+159 
 ˛õ¡
 ->
 hâp_ªq
@@ -2741,27 +2707,17 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-164  
+160  
 FAILURE
 ;
 
-166 
-	`ªwöd
+162 
+	`f˛o£
 (
 Â
 );
 
-168 
-˛õ¡
-->
-hâp_ªq
-.
-°©us
- = 
-STATUS_HEADER_WRITTEN
-;
-
-169 
+164 
 ˛õ¡
 ->
 hâp_ªq
@@ -2771,7 +2727,7 @@ hâp_ªq
 size
 ;
 
-170 
+165 
 ty≥
  = 
 	`gë_fûe_ty≥
@@ -2779,7 +2735,7 @@ ty≥
 d©a
 );
 
-171 
+167 
 	`wrôe_hâp_ª•⁄£_hódî
 (
 fd
@@ -2789,7 +2745,7 @@ ty≥
 size
 , 200, "OK");
 
-173 
+169 
 	`dbg_¥ötf
 ("ª•⁄£ hódî wrôãn: %†⁄ sockë %d\n", 
 fûe_∑th
@@ -2797,119 +2753,117 @@ fûe_∑th
 fd
 );
 
-176 if(
+172 
+hñ≥r_idx
+ = 
+	`hi_gë_√xt_hñ≥r
+(
+ïﬁl_obj
+);
+
+173 i‡(
+hñ≥r_idx
+ == -1) {
+
+175 
+	`dbg_¥ötf
+("No free helpersávailiable, should be waitlisted\n");
+
+178 
+ïﬁl_obj
+->
+hñ≥r_öfo
+[
+hñ≥r_idx
+].
+hi_˛õ¡
+ = 
+˛õ¡
+;
+
+179 
+ïﬁl_obj
+->
+hñ≥rs_öu£
+++;
+
+182 
+˛õ¡
+->
+key
+ = 
+ïﬁl_obj
+->key++;
+
+183 
+	`dbg_¥ötf
+("Key sëÅo: %d\n", 
+˛õ¡
+->
+key
+);
+
+186 
+	`ed_ïﬁl_£t
+(
+ïﬁl_obj
+,Épﬁl_obj->
+hñ≥r_öfo
+[
+hñ≥r_idx
+].
+hi_fd
+, 
+EPOLLOUT
+, 
+fûe_∑th
+);
+
+189 
+˛õ¡
+->
+hâp_ªq
+.
+°©us
+ = 
+STATUS_HEADER_WRITTEN
+;
+
+192 i‡(
 ˛õ¡
 ->
 hâp_ªq
 .
 °©us
  =
-STATUS_HEADER_WRITTEN
- || clõ¡->hâp_ªq.°©u†=
-STATUS_DATA_WRITING
-)
+STATUS_MAP_REQUESTED
+) {
 
-178 
-Â
+193 *
+buf„r
  = 
 ˛õ¡
-->
-hâp_ªq
-.fp;
+->buffer;
 
-179 
-size
- = 
-˛õ¡
-->
-hâp_ªq
-.
-ª•⁄£_size
-;
-
-181 
-Àn
- = 
-	`‰ód
+194 i‡(
+	`°rcmp
 (
 buf„r
-, 1, 
-READ_CHUNK_SIZE
-, 
-Â
-);
+, "done")) {
 
-182 if(
-	`„º‹
-(
-Â
-))
-
-184 
-	`îr_¥ötf
-("‰ód faûed f‹ %s\n", 
-fûe_∑th
-);
-
-185 
-	`˛óªº
-(
-Â
-);
-
-186 
-	`f˛o£
-(
-Â
-);
-
-187 
-	`wrôe_hâp_ª•⁄£_îr‹
-(500, 
-fd
-);
-
-188 
-˛õ¡
-->
-hâp_ªq
-.
-°©us
- = 
-STATUS_REQUEST_FINISH
+196  
+SUCCESS
 ;
 
-189  
-FAILURE
-;
+198 
+	`dbg_¥ötf
+("buf„∏hîêi†%s\n", 
+buf„r
+);
 
-192 if(
-	`„of
-(
-Â
-))
-
-194 if(
-	`f˛o£
-(
-Â
-Ë=
-EOF
-)
-
-195 
-	`îr_¥ötf
-("fclose failed\n");
-
-196 
-˛õ¡
-->
-hâp_ªq
-.
-°©us
- = 
-STATUS_REQUEST_FINISH
-;
+199 
+	`dbg_¥ötf
+("CHANGING STATUS TO DATA WRITING\n");
 
 200 
 ˛õ¡
@@ -2921,115 +2875,277 @@ hâp_ªq
 STATUS_DATA_WRITING
 ;
 
-203 if(
-Àn
- > 0)
+203 if(
+˛õ¡
+->
+hâp_ªq
+.
+°©us
+ =
+STATUS_DATA_WRITING
+)
 
-205 
-	`dbg_¥ötf
-("buf„r: %s\n", 
-buf„r
-);
+205 
+shmid
+, 
+chunks
+, 
+i
+, 
+ªm
+;
+
+206 *
+shm
+, *
+ﬁd_shm
+;
 
 207 
+size
+ = 
+˛õ¡
+->
+hâp_ªq
+.
+ª•⁄£_size
+;
+
+210 i‡((
+shmid
+ = 
+	`shmgë
+(
+˛õ¡
+->
+key
+, 
+size
+, 0666)) < 0) {
+
+211 
+	`dbg_¥ötf
+("something bad\n");
+
+214 i‡((
+shm
+ = 
+	`shm©
+(
+shmid
+, 
+NULL
+, 0)) == (*)-1) {
+
+215 
+	`dbg_¥ötf
+("somethingÑeally bad\n");
+
+217 
+˛õ¡
+->
+shm
+ = shm;
+
+218 
+˛õ¡
+->
+shmid
+ = shmid;
+
+220 
+ﬁd_shm
+ = 
+shm
+;
+
+221 
+chunks
+ = 
+size
+ / 
+READ_CHUNK_SIZE
+;
+
+223 
+i
+ = 0; i < 
+chunks
+; i++) {
+
+224 
+	`mem˝y
+(
+buf„r
+, 
+shm
+, 
+READ_CHUNK_SIZE
+);
+
+225 
+shm
++=
+READ_CHUNK_SIZE
+;
+
+226 
 	`wrôe_hâp_ª•⁄£_d©a
 (
 fd
 , 
 buf„r
 , 
-Àn
+READ_CHUNK_SIZE
 );
 
-208 
+228 
+ªm
+ = 
+size
+ % 
+READ_CHUNK_SIZE
+;
+
+229 
+	`mem˝y
+(
+buf„r
+, 
+shm
+, 
+ªm
+);
+
+232 
+	`wrôe_hâp_ª•⁄£_d©a
+(
+fd
+, 
+buf„r
+, 
+ªm
+);
+
+235 i‡(
+	`shm˘l
+(
+shmid
+, 
+IPC_RMID
+, 
+NULL
+) < 0) {
+
+236 
 	`dbg_¥ötf
-("ouçuàªtu∫ed f‹ %s\n", 
-fûe_∑th
-);
+("shm˘l(Ëîr‹: %s\n", 
+	`°ªº‹
+(
+î∫o
+));
 
-211  
+237 
+	`as£π
+(0);
+
+240 
+	`dbg_¥ötf
+("shmctl() unlink SUCCESS\n");
+
+244 
+˛õ¡
+->
+hâp_ªq
+.
+°©us
+ = 
+STATUS_REQUEST_FINISH
+;
+
+246  
 SUCCESS
 ;
 
-212 
+247 
 	}
 }
 
-217 *
+252 *
 	$gë_fûe_ty≥
 (*
 «me
 )
 
-219 *
+254 *
 ty≥
  = 
 NULL
 ;
 
-221 i‡(
+256 i‡(
 	`°r°r
 (
 «me
 , ".html"))
 
-222 
+257 
 ty≥
  = "text/html";
 
-223 i‡(
+258 i‡(
 	`°r°r
 (
 «me
 , ".jpg"))
 
-224 
+259 
 ty≥
  = "image/jpg";
 
-225 i‡(
+260 i‡(
 	`°r°r
 (
 «me
 , ".gif"))
 
-226 
+261 
 ty≥
  = "image/gif";
 
-227 i‡(
+262 i‡(
 	`°r°r
 (
 «me
 , ".js"))
 
-228 
+263 
 ty≥
  = "text/javascript\n";
 
-229 i‡(
+264 i‡(
 	`°r°r
 (
 «me
 , ".css"))
 
-230 
+265 
 ty≥
  = "text/css";
 
-233 
+268 
 ty≥
  = "text/plain";
 
-236  
+271  
 ty≥
 ;
 
-237 
+272 
 	}
 }
 
-243 
+278 
 	$wrôe_hâp_cgi_ª•⁄£
 (
 ed_ïﬁl
@@ -3041,23 +3157,23 @@ fûe_∑th
 fd
 )
 
-245 
+280 
 FILE
  *
 Â
 ;
 
-246 
+281 
 buf„r
 [
 READ_CHUNK_SIZE
 ];
 
-247 
+282 
 n
 ;
 
-248 *
+283 *
 comm™d
 , *
 quîy_°r
@@ -3065,13 +3181,13 @@ quîy_°r
 pos
 ;
 
-249 
+284 
 ed_˛õ¡_t
  *
 ˛õ¡
 ;
 
-251 
+286 
 ˛õ¡
  = &
 ïﬁl_obj
@@ -3081,7 +3197,7 @@ ed_˛õ¡s
 fd
 ];
 
-253 if(
+288 if(
 ˛õ¡
 ->
 hâp_ªq
@@ -3091,7 +3207,7 @@ hâp_ªq
 STATUS_REQUEST_START
 )
 
-255 
+290 
 pos
  = 
 	`°rchr
@@ -3099,39 +3215,39 @@ pos
 fûe_∑th
 , '?');
 
-256 if(
+291 if(
 pos
  =
 NULL
 )
 
-258 
+293 
 comm™d
  = 
 fûe_∑th
 ;
 
-259 
+294 
 quîy_°r
  = "";
 
-263 *
+298 *
 pos
  = '\0';
 
-264 
+299 
 comm™d
  = 
 fûe_∑th
 ;
 
-265 
+300 
 quîy_°r
  = 
 pos
  + 1;
 
-268 if((
+303 if((
 Â
  = 
 	`f›í
@@ -3139,25 +3255,25 @@ pos
 comm™d
 , "r")))
 
-270 
+305 
 	`f˛o£
 (
 Â
 );
 
-274 
+309 
 	`îr_¥ötf
 ("cgòs¸ùà%†NŸ Found\n", 
 comm™d
 );
 
-275 
+310 
 	`wrôe_hâp_ª•⁄£_îr‹
 (404, 
 fd
 );
 
-276 
+311 
 ˛õ¡
 ->
 hâp_ªq
@@ -3167,11 +3283,11 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-277  
+312  
 FAILURE
 ;
 
-280 
+315 
 ˛õ¡
 ->
 hâp_ªq
@@ -3181,7 +3297,7 @@ hâp_ªq
 STATUS_CGI_FILE_FOUND
 ;
 
-281 
+316 
 	`°∫˝y
 (
 ˛õ¡
@@ -3195,7 +3311,7 @@ comm™d
 MAX_LINE
 );
 
-282 
+317 
 	`°∫˝y
 (
 ˛õ¡
@@ -3209,13 +3325,13 @@ quîy_°r
 MAX_LINE
 );
 
-284 
+319 
 	`dbg_¥ötf
 ("CGI Fûêfound: %s\n", 
 fûe_∑th
 );
 
-286 if(
+321 if(
 ˛õ¡
 ->
 hâp_ªq
@@ -3225,7 +3341,7 @@ hâp_ªq
 STATUS_CGI_FILE_FOUND
 )
 
-288 
+323 
 comm™d
  = 
 ˛õ¡
@@ -3235,7 +3351,7 @@ hâp_ªq
 cgi_comm™d
 ;
 
-289 
+324 
 quîy_°r
  = 
 ˛õ¡
@@ -3245,7 +3361,7 @@ hâp_ªq
 cgi_quîy_°r
 ;
 
-291 
+326 
 Â
  = 
 	`run_cgi_fûe
@@ -3255,25 +3371,25 @@ comm™d
 quîy_°r
 );
 
-292 if(
+327 if(
 Â
  =
 NULL
 )
 
-294 
+329 
 	`îr_¥ötf
 ("cgòs¸ùà%†I¡î«»Sîvî Eº‹\n", 
 comm™d
 );
 
-295 
+330 
 	`wrôe_hâp_ª•⁄£_îr‹
 (500, 
 fd
 );
 
-296 
+331 
 ˛õ¡
 ->
 hâp_ªq
@@ -3283,11 +3399,11 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-297  
+332  
 FAILURE
 ;
 
-300 
+335 
 ˛õ¡
 ->
 hâp_ªq
@@ -3297,7 +3413,7 @@ hâp_ªq
 STATUS_CGI_PROC_RUNNING
 ;
 
-301 
+336 
 ˛õ¡
 ->
 hâp_ªq
@@ -3305,13 +3421,13 @@ hâp_ªq
 Â
  = fp;
 
-303 
+338 
 	`dbg_¥ötf
 ("CGIÖro¯%†i†ru¬ög\n", 
 comm™d
 );
 
-305 if(
+340 if(
 ˛õ¡
 ->
 hâp_ªq
@@ -3321,7 +3437,7 @@ hâp_ªq
 STATUS_CGI_PROC_RUNNING
 )
 
-307 
+342 
 Â
  = 
 ˛õ¡
@@ -3329,7 +3445,7 @@ STATUS_CGI_PROC_RUNNING
 hâp_ªq
 .fp;
 
-308 
+343 
 comm™d
  = 
 ˛õ¡
@@ -3339,7 +3455,7 @@ hâp_ªq
 cgi_comm™d
 ;
 
-310 
+345 
 n
  = 
 	`‰ód
@@ -3351,31 +3467,31 @@ READ_CHUNK_SIZE
 Â
 );
 
-311 if(
+346 if(
 	`„º‹
 (
 Â
 ))
 
-313 
+348 
 	`îr_¥ötf
 ("Brokí Pùe: %s\n", 
 comm™d
 );
 
-314 
+349 
 	`˛óªº
 (
 Â
 );
 
-315 
+350 
 	`f˛o£
 (
 Â
 );
 
-316 
+351 
 ˛õ¡
 ->
 hâp_ªq
@@ -3385,17 +3501,17 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-317  
+352  
 FAILURE
 ;
 
-319 
+354 
 	`dbg_¥ötf
 ("cgòouçut: %d\n", 
 n
 );
 
-320 
+355 
 	`wrôe_hâp_ª•⁄£_d©a
 (
 fd
@@ -3405,19 +3521,19 @@ buf„r
 n
 );
 
-322 if(
+357 if(
 	`„of
 (
 Â
 ))
 
-324 
+359 
 	`f˛o£
 (
 Â
 );
 
-325 
+360 
 ˛õ¡
 ->
 hâp_ªq
@@ -3427,7 +3543,7 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-329 
+364 
 ˛õ¡
 ->
 hâp_ªq
@@ -3437,15 +3553,15 @@ hâp_ªq
 STATUS_CGI_RESPONSE_WRITING
 ;
 
-334  
+369  
 SUCCESS
 ;
 
-335 
+370 
 	}
 }
 
-340 
+375 
 FILE
  *
 	$run_cgi_fûe
@@ -3455,25 +3571,25 @@ comm™d
 quîy_°r
 )
 
-342 
+377 
 fds
 [2];
 
-343 
+378 
 quîy_°r_ív
 [
 MAX_LINE
 ];
 
-348 *
+383 *
 ¨gv
 [4] = {"/bin/sh", "-c"};
 
-349 *
+384 *
 ívp
 [8] = {"SERVER_SOFTWARE=ssuman_web_server", "SERVER_NAME=ssuman_18845.com", "GATEWAY_INTERFACE=CGI/1.0", "SERVER_PROTOCOL=HTTP/1.0", "REQUEST_METHOD=GET"};
 
-350 
+385 
 	`•rötf
 (
 quîy_°r_ív
@@ -3481,47 +3597,47 @@ quîy_°r_ív
 quîy_°r
 );
 
-351 
+386 
 ívp
 [5] = 
 quîy_°r_ív
 ;
 
-369 
+404 
 ¨gv
 [2] = 
 comm™d
 ;
 
-371 
+406 
 	`pùe
 (
 fds
 );
 
-372 i‡(
+407 i‡(
 	`f‹k
 () == 0) {
 
-373 
+408 
 	`˛o£
 (
 fds
 [0]);
 
-374 
+409 
 	`dup2
 (
 fds
 [1], 1);
 
-375 
+410 
 	`˛o£
 (
 fds
 [1]);
 
-376 
+411 
 	`execve
 (
 ¨gv
@@ -3529,27 +3645,27 @@ fds
 ívp
 );
 
-377 
+412 
 	`exô
 (-1);
 
-379 
+414 
 	`˛o£
 (
 fds
 [1]);
 
-380  
+415  
 	`fd›í
 (
 fds
 [0], "r");
 
-381 
+416 
 	}
 }
 
-389 
+424 
 	$wrôe_hâp_Á°cgi_ª•⁄£
 (
 ed_ïﬁl
@@ -3561,17 +3677,17 @@ fûe_∑th
 fd
 )
 
-391 
+426 
 buf„r
 [
 READ_CHUNK_SIZE
 ];
 
-392 
+427 
 n
 ;
 
-393 *
+428 *
 comm™d
 , *
 quîy_°r
@@ -3579,31 +3695,31 @@ quîy_°r
 pos
 ;
 
-394 
+429 
 ed_˛õ¡_t
  *
 ˛õ¡
 ;
 
-395 
+430 
 sock
 , 
 ªque°_quîy_Àn
 ;
 
-396 
+431 
 sockaddr_ö
  
 £rv_addr
 ;
 
-397 
+432 
 ªque°_quîy
 [
 MAX_LINE
 ];
 
-399 
+434 
 ˛õ¡
  = &
 ïﬁl_obj
@@ -3613,7 +3729,7 @@ ed_˛õ¡s
 fd
 ];
 
-402 
+437 
 pos
  = 
 	`°rchr
@@ -3621,39 +3737,39 @@ pos
 fûe_∑th
 , '?');
 
-403 if(
+438 if(
 pos
  =
 NULL
 )
 
-405 
+440 
 comm™d
  = 
 fûe_∑th
 ;
 
-406 
+441 
 quîy_°r
  = "";
 
-410 *
+445 *
 pos
  = '\0';
 
-411 
+446 
 comm™d
  = 
 fûe_∑th
 ;
 
-412 
+447 
 quîy_°r
  = 
 pos
  + 1;
 
-415 
+450 
 	`mem£t
 (
 ªque°_quîy
@@ -3661,7 +3777,7 @@ pos
 MAX_LINE
 );
 
-421 
+456 
 	`•rötf
 (
 ªque°_quîy
@@ -3673,13 +3789,13 @@ comm™d
 quîy_°r
 ), query_str);
 
-423 
+458 
 	`dbg_¥ötf
 ("ªque°_quîy: %s\n", 
 ªque°_quîy
 );
 
-425 i‡((
+460 i‡((
 sock
  = 
 	`sockë
@@ -3689,17 +3805,17 @@ AF_INET
 SOCK_STREAM
 , 0)) < 0)
 
-427 
+462 
 	`îr_¥ötf
 ("couldÇot create socket\n");
 
-428 
+463 
 	`wrôe_hâp_ª•⁄£_îr‹
 (500, 
 fd
 );
 
-429 
+464 
 ˛õ¡
 ->
 hâp_ªq
@@ -3709,17 +3825,17 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-430  
+465  
 FAILURE
 ;
 
-433 
+468 
 	`mem£t
 (&
 £rv_addr
 , 0, (serv_addr));
 
-434 
+469 
 £rv_addr
 .
 sö_Ámûy
@@ -3727,7 +3843,7 @@ sö_Ámûy
 AF_INET
 ;
 
-435 
+470 
 £rv_addr
 .
 sö_addr
@@ -3739,7 +3855,7 @@ s_addr
 FASTCGI_SERV_ADDR
 );
 
-436 
+471 
 £rv_addr
 .
 sö_p‹t
@@ -3751,7 +3867,7 @@ sö_p‹t
 FASTCGI_SERV_PORT
 ));
 
-439 if(
+474 if(
 	`c⁄√˘
 (
 sock
@@ -3761,7 +3877,7 @@ sockaddr
 £rv_addr
 , (serv_addr)) < 0)
 
-441 
+476 
 	`îr_¥ötf
 ("couldÇŸ c⁄√˘ÅÿÁ°cgò£rvî: %s\n", 
 	`°ªº‹
@@ -3769,13 +3885,13 @@ sockaddr
 î∫o
 ));
 
-442 
+477 
 	`wrôe_hâp_ª•⁄£_îr‹
 (500, 
 fd
 );
 
-443 
+478 
 ˛õ¡
 ->
 hâp_ªq
@@ -3785,11 +3901,11 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-444  
+479  
 FAILURE
 ;
 
-447 
+482 
 ªque°_quîy_Àn
  = 
 	`°æí
@@ -3797,7 +3913,7 @@ FAILURE
 ªque°_quîy
 );
 
-448 if(
+483 if(
 	`£nd
 (
 sock
@@ -3807,19 +3923,19 @@ sock
 ªque°_quîy_Àn
 , 0) !=Ñequest_query_len)
 
-450 
+485 
 	`îr_¥ötf
 ("couldÇŸ sídÑeque° quîy: %s\n", 
 ªque°_quîy
 );
 
-451 
+486 
 	`wrôe_hâp_ª•⁄£_îr‹
 (500, 
 fd
 );
 
-452 
+487 
 ˛õ¡
 ->
 hâp_ªq
@@ -3829,11 +3945,11 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-453  
+488  
 FAILURE
 ;
 
-458 
+493 
 n
  = 
 	`ªad
@@ -3845,17 +3961,17 @@ buf„r
 READ_CHUNK_SIZE
 );
 
-459 if(
+494 if(
 n
  > 0)
 
-461 
+496 
 	`dbg_¥ötf
 ("Á° cgòouçut: %d\n", 
 n
 );
 
-462 
+497 
 	`wrôe_hâp_ª•⁄£_d©a
 (
 fd
@@ -3865,13 +3981,13 @@ buf„r
 n
 );
 
-466 
+501 
 	`˛o£_sockë
 (
 sock
 );
 
-467 
+502 
 ˛õ¡
 ->
 hâp_ªq
@@ -3881,33 +3997,33 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 ;
 
-472 
+507 
 	`dbg_¥ötf
 ("fastcgiÑesponse done\n");
 
-473  
+508  
 SUCCESS
 ;
 
-474 
+509 
 	}
 }
 
-476 
+511 
 	$¸óã_gíîic_¶ave
 (*
 ¶aveName
 )
 
-484 
+519 
 r
 ;
 
-485 
+520 
 sockVec
 [2];
 
-487 i‡(
+522 i‡(
 	`sockë∑ú
 (
 AF_UNIX
@@ -3917,7 +4033,7 @@ SOCK_STREAM
 sockVec
 ) < 0) {
 
-488 
+523 
 	`Ârötf
 (
 °dîr
@@ -3925,17 +4041,17 @@ sockVec
 ¶aveName
 );
 
-492 
+527 
 r
  = 
 	`f‹k
 ();
 
-493 i‡(
+528 i‡(
 r
  < 0) {
 
-494 
+529 
 	`Ârötf
 (
 °dîr
@@ -3943,39 +4059,39 @@ r
 ¶aveName
 );
 
-498 i‡(
+533 i‡(
 r
  == 0) {
 
-500 *
+535 *
 ¨gs
 [2];
 
-502 
+537 
 ¨gs
 [0] = 
 ¶aveName
 ;
 
-503 
+538 
 ¨gs
 [1] = 
 NULL
 ;
 
-505 
+540 
 	`˛o£
 (
 sockVec
 [0]);
 
-508 i‡(
+543 i‡(
 	`dup2
 (
 sockVec
 [1], 0) < 0) {
 
-509 
+544 
 	`Ârötf
 (
 °dîr
@@ -3983,11 +4099,11 @@ sockVec
 ¶aveName
 );
 
-510 
+545 
 	`exô
 (-1);
 
-513 i‡(
+548 i‡(
 	`execv
 (
 ¶aveName
@@ -3995,7 +4111,7 @@ sockVec
 ¨gs
 ) < 0) {
 
-514 
+549 
 	`Ârötf
 (
 °dîr
@@ -4003,21 +4119,21 @@ sockVec
 ¶aveName
 );
 
-515 
+550 
 	`exô
 (-1);
 
-521 
+556 
 	`˛o£
 (
 sockVec
 [1]);
 
-522 (
+557 (
 sockVec
 [0]);
 
-523 
+558 
 	}
 }
 
@@ -4191,7 +4307,11 @@ ed_ïﬁl_t
 fd
 ;
 
-21 i‡(
+20 
+i
+;
+
+22 i‡(
 ¨gc
  < 2 || (
 £rvî_p‹t
@@ -4201,21 +4321,21 @@ fd
 ¨gv
 [1])) <= 0) {
 
-22 
+23 
 	`îr_¥ötf
 ("Ußge: %†p‹t\n", 
 ¨gv
 [0]);
 
-23 
+24 
 	`exô
 (1);
 
-26 
+27 
 	`£t_sig«l_h™dÀrs
 ();
 
-29 
+30 
 	`mem£t
 (&
 ed_ïﬁl
@@ -4223,7 +4343,7 @@ ed_ïﬁl
 ed_ïﬁl_t
 ));
 
-30 if(
+31 if(
 	`ed_ïﬁl_öô
 (&
 ed_ïﬁl
@@ -4231,7 +4351,7 @@ ed_ïﬁl
 MAX_ED_EVENTS
 ))
 
-32 
+33 
 	`îr_¥ötf
 ("ed_ïﬁl_öô: Faûed. Code: %d, Eº‹: %s\n", 
 î∫o
@@ -4239,39 +4359,59 @@ MAX_ED_EVENTS
 	`°ªº‹
 (errno));
 
-33 
+34 
 	`exô
 (1);
 
-37 
+38 
+i
+ = 0; i < 
+N_HELPER_PROCS
+; i++) {
+
+39 
 fd
  = 
 	`¸óã_gíîic_¶ave
-("dummy_slave");
+("reader_slave");
 
-38 
+40 
 ed_ïﬁl
 .
 hñ≥r_öfo
-.
+[
+i
+].
 hi_fd
  = 
 fd
 ;
 
-39 
+41 
+ed_ïﬁl
+.
+hñ≥r_öfo
+[
+i
+].
+hi_˛õ¡
+ = 
+NULL
+;
+
+42 
 	`ed_ïﬁl_add
 (&
 ed_ïﬁl
 , 
 fd
 , 
-ed_dummy_ˇŒback
+ed_ªadî_ˇŒback
 , 
 NULL
 );
 
-42 
+46 
 £rvî_sockfd
  = 
 	`°¨t_£rvî_sockë
@@ -4279,43 +4419,43 @@ NULL
 £rvî_p‹t
 );
 
-43 if(
+47 if(
 £rvî_sockfd
  < 0)
 
-45 
+49 
 	`îr_¥ötf
 ("CouldÇŸ sèπ sîvî o¿p‹à%d\n", 
 £rvî_p‹t
 );
 
-46 
+50 
 	`exô
 (1);
 
-50 if(
+54 if(
 	`£ä⁄block
 (
 £rvî_sockfd
 ) < 0)
 
-52 
+56 
 	`˛o£_sockë
 (
 £rvî_sockfd
 );
 
-53 
+57 
 	`îr_¥ötf
 ("ÁûedÅÿ£à£rvî sockë %dÅÿn⁄-blockög\n", 
 £rvî_sockfd
 );
 
-54 
+58 
 	`exô
 (1);
 
-58 
+62 
 	`ed_ïﬁl_add
 (&
 ed_ïﬁl
@@ -4327,25 +4467,25 @@ ed_ac˚±_ˇŒback
 NULL
 );
 
-59 
+63 
 	`h™dÀ_ïﬁl_evíts
 ();
 
-62 
+66 
 	`˛o£_sockë
 (
 £rvî_sockfd
 );
 
-65 
+69 
 	}
 }
 
-68 
+72 
 	$h™dÀ_ïﬁl_evíts
 ()
 
-72 
+76 
 	`ed_ïﬁl_di•©ch_evíts
 (&
 ed_ïﬁl
@@ -4353,11 +4493,11 @@ ed_ïﬁl
 EVENT_WAIT_TIMEOUT
 );
 
-76 
+80 
 	}
 }
 
-79 
+83 
 	$ed_ac˚±_ˇŒback
 (
 ïﬁl_evít
@@ -4367,43 +4507,43 @@ evít
 d©a
 )
 
-81 
+85 
 √w_fd
 ;
 
-82 
+86 
 sockaddr_ö
  
 ˛õ¡_addr
 ;
 
-83 
+87 
 sockÀn_t
  
 Àn
 ;
 
-84 
+88 
 ˛õ¡_ù4
 [
 INET_ADDRSTRLEN
 ];
 
-86 
+90 
 	`dbg_¥ötf
 ("GotÇewÑequest\n");
 
-88 
+92 
 Àn
  = (
 sockaddr_ö
 );
 
-93 
+97 
 √w_fd
  = -1;
 
-94 
+98 
 √w_fd
  = 
 	`ac˚±
@@ -4421,11 +4561,11 @@ sockaddr
 Àn
 );
 
-96 if(
+100 if(
 √w_fd
  == -1)
 
-98 if(
+102 if(
 î∫o
  =
 EAGAIN
@@ -4433,7 +4573,7 @@ EAGAIN
 EWOULDBLOCK
 )
 
-105 
+109 
 	`îr_¥ötf
 ("ac˚± faûed f‹ fd %d, code: %d, Eº‹: %s\n", 
 evít
@@ -4447,7 +4587,7 @@ fd
 	`°ªº‹
 (errno));
 
-110 
+114 
 	`öë_¡›
 (
 AF_INET
@@ -4461,7 +4601,7 @@ sö_addr
 INET_ADDRSTRLEN
 );
 
-112 
+116 
 	`dbg_¥ötf
 ("gŸÑeque° from: %s:%d,ássig¿sockë is:%d\n", 
 ˛õ¡_ù4
@@ -4475,25 +4615,25 @@ sö_p‹t
 √w_fd
 );
 
-114 if(
+118 if(
 	`£ä⁄block
 (
 √w_fd
 ) < 0)
 
-116 
+120 
 	`˛o£_sockë
 (
 √w_fd
 );
 
-117 
+121 
 	`îr_¥ötf
 ("ÁûedÅÿ£à˛õ¡ sockë %dÅÿn⁄-blockög\n", 
 √w_fd
 );
 
-121 
+125 
 	`ed_ïﬁl_add
 (&
 ed_ïﬁl
@@ -4505,15 +4645,15 @@ ed_sockë_ˇŒback
 NULL
 );
 
-124  
+128  
 SUCCESS
 ;
 
-125 
+129 
 	}
 }
 
-128 
+132 
 	$ed_sockë_ˇŒback
 (
 ïﬁl_evít
@@ -4523,7 +4663,7 @@ evít
 d©a
 )
 
-131 
+135 
 ªad_Àn
 , 
 fd
@@ -4531,17 +4671,7 @@ fd
 n
 ;
 
-133 
-	`dbg_¥ötf
-("ª˚ivedÉvíàf‹ sockë %d\n", 
-evít
-->
-d©a
-.
-fd
-);
-
-135 
+139 
 fd
  = 
 evít
@@ -4549,7 +4679,7 @@ evít
 d©a
 .fd;
 
-137 if(
+141 if(
 evít
 ->
 evíts
@@ -4557,7 +4687,7 @@ evíts
 EPOLLERR
 )
 
-139 
+143 
 	`dbg_¥ötf
 ("Evít:EPOLLERR %d o¿sockë %d\n", 
 evít
@@ -4567,7 +4697,7 @@ evíts
 fd
 );
 
-141 if(
+145 if(
 evít
 ->
 evíts
@@ -4575,7 +4705,7 @@ evíts
 EPOLLHUP
 )
 
-143 
+147 
 	`dbg_¥ötf
 ("Evít:EPOLLHUP %d o¿sockë %d\n", 
 evít
@@ -4585,7 +4715,7 @@ evíts
 fd
 );
 
-144 
+148 
 	`ed_ïﬁl_dñ
 (&
 ed_ïﬁl
@@ -4593,13 +4723,13 @@ ed_ïﬁl
 fd
 );
 
-145 
+149 
 	`˛o£_sockë
 (
 fd
 );
 
-147 if(
+151 if(
 evít
 ->
 evíts
@@ -4607,7 +4737,7 @@ evíts
 EPOLLRDHUP
 )
 
-149 
+153 
 	`dbg_¥ötf
 ("Evít:EPOLLRDHUP %d o¿sockë %d\n", 
 evít
@@ -4617,7 +4747,7 @@ evíts
 fd
 );
 
-150 
+154 
 	`ed_ïﬁl_dñ
 (&
 ed_ïﬁl
@@ -4625,13 +4755,13 @@ ed_ïﬁl
 fd
 );
 
-151 
+155 
 	`˛o£_sockë
 (
 fd
 );
 
-153 if(
+157 if(
 evít
 ->
 evíts
@@ -4639,17 +4769,11 @@ evíts
 EPOLLOUT
 )
 
-155 if(
+159 if(
 d©a
 )
 
-157 
-	`dbg_¥ötf
-("wêhavêsomëhögÅÿwrôê⁄ sockë %d\n", 
-fd
-);
-
-158 
+162 
 	`wrôe_hâp_ª•⁄£
 (&
 ed_ïﬁl
@@ -4659,7 +4783,7 @@ fd
 d©a
 );
 
-159 if(
+163 if(
 ed_ïﬁl
 .
 ed_˛õ¡s
@@ -4673,7 +4797,17 @@ hâp_ªq
 STATUS_REQUEST_FINISH
 )
 
-161 
+166 
+ed_ïﬁl
+.
+hñ≥r_öfo
+.
+hi_˛õ¡
+ = 
+NULL
+;
+
+167 
 	`ed_ïﬁl_dñ
 (&
 ed_ïﬁl
@@ -4681,19 +4815,19 @@ ed_ïﬁl
 fd
 );
 
-162 
+168 
 	`˛o£_sockë
 (
 fd
 );
 
-167 
+173 
 	`dbg_¥ötf
 ("wêhavênŸhögÅÿwrôê⁄ sockë %d\n", 
 fd
 );
 
-168 
+174 
 	`ed_ïﬁl_£t
 (&
 ed_ïﬁl
@@ -4705,7 +4839,7 @@ EPOLLIN
 NULL
 );
 
-171 if(
+177 if(
 evít
 ->
 evíts
@@ -4713,7 +4847,7 @@ evíts
 EPOLLIN
 )
 
-173 
+179 
 ed_˛õ¡
  *
 ˛õ¡
@@ -4725,25 +4859,25 @@ ed_˛õ¡s
 fd
 ];
 
-174 
+180 
 max_ªad
 ;
 
-176 
+182 
 	`dbg_¥ötf
 ("d©®avaûabÀÅÿªad o¿%d\n", 
 fd
 );
 
-178 
+184 
 ªad_Àn
  = 0;
 
-179 
+185 
 n
  = 0;
 
-182 
+188 
 max_ªad
  = ((
 ˛õ¡
@@ -4755,7 +4889,7 @@ BUF_SIZE_PER_READ
 REQUEST_SIZE
 ) ? BUF_SIZE_PER_READ : (REQUEST_SIZE - client->buf_len);
 
-183 
+189 
 n
  = 
 	`ªad
@@ -4771,17 +4905,17 @@ buf_Àn
 max_ªad
 );
 
-184 if(
+190 if(
 n
  > 0)
 
-186 
+192 
 ªad_Àn
  +
 n
 ;
 
-187 
+193 
 ˛õ¡
 ->
 buf_Àn
@@ -4789,7 +4923,7 @@ buf_Àn
 n
 ;
 
-191 
+197 
 	`dbg_¥ötf
 ("%d byãs“ = %dËªad o¿sockë %d\n", 
 ªad_Àn
@@ -4799,11 +4933,11 @@ n
 fd
 );
 
-193 if(
+199 if(
 n
  == -1)
 
-195 
+201 
 	`îr_¥ötf
 ("ªad o¿sockë %d faûed. Code: %d, Eº‹ %s\n", 
 fd
@@ -4813,25 +4947,25 @@ fd
 	`°ªº‹
 (errno));
 
-196 if(
+202 if(
 î∫o
  =
 EWOULDBLOCK
 )
 
-198 
+204 
 	`îr_¥ötf
 ("EWOULDBLOCK\n");
 
-199 if(
+205 if(
 ªad_Àn
  == 0)
 
-200 
+206 
 	`îr_¥ötf
 ("no dataÅoÑeadÅhen why I gotÑeadÉvent\n");
 
-206 
+212 
 	`dbg_¥ötf
 ("Echo: %s\n", 
 ˛õ¡
@@ -4839,7 +4973,7 @@ EWOULDBLOCK
 buf„r
 );
 
-207 if(
+213 if(
 	`¥o˚ss_hâp_ªque°
 (
 ˛õ¡
@@ -4851,7 +4985,7 @@ hâp_ªq
 SUCCESS
 )
 
-209 if(
+215 if(
 ˛õ¡
 ->
 hâp_ªq
@@ -4861,7 +4995,7 @@ hâp_ªq
 NULL
 )
 
-212 
+218 
 	`dbg_¥ötf
 ("∑gêªque°ed: %†⁄ sockë %d\n", 
 ˛õ¡
@@ -4873,7 +5007,7 @@ hâp_ªq
 fd
 );
 
-213 
+219 
 	`ed_ïﬁl_£t
 (&
 ed_ïﬁl
@@ -4889,7 +5023,7 @@ hâp_ªq
 ∑ge
 );
 
-216 if(
+222 if(
 ˛õ¡
 ->
 buf_Àn
@@ -4897,13 +5031,13 @@ buf_Àn
 buf„r
 [client->buf_len-1] == '\n')
 
-218 
+224 
 	`îr_¥ötf
 ("ûÀgÆÖagêªque° o¿sockë %d\n", 
 fd
 );
 
-219 
+225 
 	`ed_ïﬁl_dñ
 (&
 ed_ïﬁl
@@ -4911,13 +5045,13 @@ ed_ïﬁl
 fd
 );
 
-220 
+226 
 	`˛o£_sockë
 (
 fd
 );
 
-226 
+232 
 	`dbg_¥ötf
 ("Evíà%d o¿sockë %d\n", 
 evít
@@ -4927,16 +5061,16 @@ evíts
 fd
 );
 
-229  
+235  
 SUCCESS
 ;
 
-230 
+236 
 	}
 }
 
-232 
-	$ed_dummy_ˇŒback
+238 
+	$ed_ªadî_ˇŒback
 (
 ïﬁl_evít
  *
@@ -4945,7 +5079,7 @@ evít
 d©a
 )
 
-234 
+240 
 hñ≥r_fd
 , 
 ˛õ¡_fd
@@ -4955,23 +5089,27 @@ n
 max_ªad
 , 
 ªad_Àn
+, 
+size
+, 
+hñ≥r_idx
 ;
 
-235 
+241 
 ed_˛õ¡_t
  *
-˛õ¡
+ªq_˛õ¡
 , *
 hñ≥r_˛õ¡
 ;
 
-236 *
+242 
 ªque°
- = (*)
-d©a
-;
+[
+MAX_LINE
+];
 
-238 
+244 
 hñ≥r_fd
  = 
 evít
@@ -4981,7 +5119,7 @@ d©a
 fd
 ;
 
-239 
+245 
 hñ≥r_˛õ¡
  = &(
 ed_ïﬁl
@@ -4991,7 +5129,17 @@ ed_˛õ¡s
 hñ≥r_fd
 ]);
 
-261 if(
+246 
+hñ≥r_idx
+ = 
+	`hi_gë_hñ≥r_ödex
+(&
+ed_ïﬁl
+, 
+hñ≥r_fd
+);
+
+265 if(
 evít
 ->
 evíts
@@ -4999,7 +5147,7 @@ evíts
 EPOLLERR
 )
 
-263 
+267 
 	`dbg_¥ötf
 ("Evít:EPOLLERR %d o¿sockë %d\n", 
 evít
@@ -5009,7 +5157,7 @@ evíts
 hñ≥r_fd
 );
 
-265 if(
+269 if(
 evít
 ->
 evíts
@@ -5017,7 +5165,7 @@ evíts
 EPOLLHUP
 )
 
-267 
+271 
 	`dbg_¥ötf
 ("Evít:EPOLLHUP %d o¿sockë %d\n", 
 evít
@@ -5027,13 +5175,57 @@ evíts
 hñ≥r_fd
 );
 
-268 
+272 
+	`ed_ïﬁl_dñ
+(&
+ed_ïﬁl
+, 
+hñ≥r_fd
+);
+
+273 
 	`˛o£_sockë
 (
 hñ≥r_fd
 );
 
-271 if(
+274 i‡(
+ed_ïﬁl
+.
+hñ≥r_öfo
+.
+hi_˛õ¡
+ !
+NULL
+) {
+
+275 
+˛õ¡_fd
+ = 
+ed_ïﬁl
+.
+hñ≥r_öfo
+.
+hi_˛õ¡
+->
+fd
+;
+
+276 
+	`ed_ïﬁl_dñ
+(&
+ed_ïﬁl
+, 
+˛õ¡_fd
+);
+
+277 
+	`˛o£_sockë
+(
+˛õ¡_fd
+);
+
+280 if(
 evít
 ->
 evíts
@@ -5041,7 +5233,7 @@ evíts
 EPOLLRDHUP
 )
 
-273 
+282 
 	`dbg_¥ötf
 ("Evít:EPOLLRDHUP %d o¿sockë %d\n", 
 evít
@@ -5051,13 +5243,57 @@ evíts
 hñ≥r_fd
 );
 
-274 
+283 
+	`ed_ïﬁl_dñ
+(&
+ed_ïﬁl
+, 
+hñ≥r_fd
+);
+
+284 
 	`˛o£_sockë
 (
 hñ≥r_fd
 );
 
-277 if(
+285 i‡(
+ed_ïﬁl
+.
+hñ≥r_öfo
+.
+hi_˛õ¡
+ !
+NULL
+) {
+
+286 
+˛õ¡_fd
+ = 
+ed_ïﬁl
+.
+hñ≥r_öfo
+.
+hi_˛õ¡
+->
+fd
+;
+
+287 
+	`ed_ïﬁl_dñ
+(&
+ed_ïﬁl
+, 
+˛õ¡_fd
+);
+
+288 
+	`˛o£_sockë
+(
+˛õ¡_fd
+);
+
+291 if(
 evít
 ->
 evíts
@@ -5065,43 +5301,45 @@ evíts
 EPOLLOUT
 )
 
-279 
-˛õ¡
+298 
+ªq_˛õ¡
  = 
 ed_ïﬁl
 .
 hñ≥r_öfo
-.
+[
+hñ≥r_idx
+].
 hi_˛õ¡
 ;
 
-281 if((
+300 if((
 d©a
  !
 NULL
 Ë&& (
-˛õ¡
+ªq_˛õ¡
  != NULL))
 
-283 
+302 
 ˛õ¡_fd
  = 
-˛õ¡
+ªq_˛õ¡
 ->
 fd
 ;
 
-285 if(
-˛õ¡
+304 if(
+ªq_˛õ¡
 ->
 hâp_ªq
 .
 °©us
  !
-STATUS_DUMMY_START
+STATUS_HEADER_WRITTEN
 ) {
 
-289 
+305 
 	`ed_ïﬁl_£t
 (&
 ed_ïﬁl
@@ -5113,17 +5351,47 @@ EPOLLIN
 NULL
 );
 
-290  
+306  
 SUCCESS
 ;
 
-293 
+309 
 	`dbg_¥ötf
 ("wêhavêsomëhögÅÿwrôê⁄ sockë %d\n", 
 hñ≥r_fd
 );
 
-294 
+311 
+size
+ = 
+ªq_˛õ¡
+->
+hâp_ªq
+.
+ª•⁄£_size
+;
+
+312 
+	`•rötf
+(
+ªque°
+, "%d %d %s", 
+ªq_˛õ¡
+->
+key
+, 
+size
+, (*Ë
+d©a
+);
+
+313 
+	`dbg_¥ötf
+("Síàªque°Åÿhñ≥r: %s\n", 
+ªque°
+);
+
+315 
 n
  = 
 	`wrôe
@@ -5135,7 +5403,7 @@ hñ≥r_fd
 	`°æí
 (request) + 1);
 
-295 if(
+316 if(
 n
  !(
 	`°æí
@@ -5143,29 +5411,33 @@ n
 ªque°
 ) + 1)) {
 
-296 
+317 
 	`dbg_¥ötf
 ("nŸÉvîythög wa†wrôã¿ouàtÿ%d\n", 
 hñ≥r_fd
 );
 
-300 
-˛õ¡
+318 
+	`as£π
+(0);
+
+322 
+ªq_˛õ¡
 ->
 hâp_ªq
 .
 °©us
  = 
-STATUS_DUMMY_WAITING
+STATUS_MAP_REQUESTED
 ;
 
-301 
+323 
 	`dbg_¥ötf
 ("wêhavêföished wrôög o¿sockë %d\n", 
 hñ≥r_fd
 );
 
-309 if(
+331 if(
 evít
 ->
 evíts
@@ -5173,103 +5445,81 @@ evíts
 EPOLLIN
 )
 
-311 
+333 
 	`dbg_¥ötf
 ("d©®avaûabÀÅÿbêªad o¿%d\n", 
 hñ≥r_fd
 );
 
-313 
-˛õ¡
+335 
+ªq_˛õ¡
  = 
 ed_ïﬁl
 .
 hñ≥r_öfo
-.
+[
+hñ≥r_idx
+].
 hi_˛õ¡
 ;
 
-314 
+336 
 ˛õ¡_fd
  = 
-˛õ¡
+ªq_˛õ¡
 ->
 fd
 ;
 
-316 if(
-˛õ¡
+338 if(
+ªq_˛õ¡
 ->
 hâp_ªq
 .
 °©us
  !
-STATUS_DUMMY_WAITING
+STATUS_MAP_REQUESTED
 ) {
 
-317 
+339 
 	`dbg_¥ötf
 ("why isÅhere dataÅo beÑead butÖrocess isÇot waiting?\n");
 
-318 
+340 
 	`as£π
 (0);
 
-321 
+344 
 ªad_Àn
  = 0;
 
-322 
+345 
 n
  = 0;
 
-324 
+346 
 max_ªad
- = ((
-hñ≥r_˛õ¡
-->
-buf_Àn
- + 
-BUF_SIZE_PER_READ
-Ë<
-REQUEST_SIZE
-) ? BUF_SIZE_PER_READ : (REQUEST_SIZE - helper_client->buf_len);
+ = 
+MAX_LINE
+;
 
-326 
+350 
 n
  = 
 	`ªad
 (
 hñ≥r_fd
 , (
-hñ≥r_˛õ¡
+ªq_˛õ¡
 ->
 buf„r
- + hñ≥r_˛õ¡->
+ +Ñeq_˛õ¡->
 buf_Àn
 ), 
 max_ªad
 );
 
-328 if(
-n
- > 0)
-
-330 
-ªad_Àn
- +
-n
-;
-
-331 
-hñ≥r_˛õ¡
-->
-buf_Àn
- +
-n
-;
-
-334 
+351 
 	`dbg_¥ötf
 ("%d byãs“ = %dËªad o¿sockë %d\n", 
 ªad_Àn
@@ -5279,11 +5529,37 @@ n
 hñ≥r_fd
 );
 
-336 if(
+353 if(
 n
- == -1)
+ > 0)
 
-338 
+355 
+ªad_Àn
+ +
+n
+;
+
+356 
+ªq_˛õ¡
+->
+buf_Àn
+ +
+n
+;
+
+358 i‡(
+n
+ == 0)
+
+360  
+SUCCESS
+;
+
+362 if(
+n
+ < 0)
+
+364 
 	`îr_¥ötf
 ("ªad o¿sockë %d faûed. Code: %d, Eº‹ %s\n", 
 hñ≥r_fd
@@ -5293,67 +5569,47 @@ hñ≥r_fd
 	`°ªº‹
 (errno));
 
-339 if(
+365 if(
 î∫o
  =
 EWOULDBLOCK
 )
 
-341 
+367 
 	`îr_¥ötf
 ("EWOULDBLOCK\n");
 
-342 if(
+368 if(
 ªad_Àn
  == 0)
 
-343 
+369 
 	`îr_¥ötf
 ("no dataÅoÑeadÅhen why did I getáÑeadÉvent\n");
 
-348 
+374 
 	`dbg_¥ötf
 ("ªadÑëu∫ed %s\n", 
-hñ≥r_˛õ¡
+ªq_˛õ¡
 ->
 buf„r
 );
 
-349 
-˛õ¡
-->
-hâp_ªq
-.
-°©us
- = 
-STATUS_FILE_FOUND
-;
-
-351 
-	`ed_ïﬁl_£t
+377 
+	`wrôe_hâp_ª•⁄£
 (&
 ed_ïﬁl
 , 
-˛õ¡
+ªq_˛õ¡
 ->
 fd
-, 
-EPOLLOUT
-, 
-NULL
+,Ñeq_˛õ¡->
+hâp_ªq
+.
+∑ge
 );
 
-353 
-ed_ïﬁl
-.
-hñ≥r_öfo
-.
-hi_˛õ¡
- = 
-NULL
-;
-
-358 
+382 
 	`dbg_¥ötf
 ("Evíà%d o¿sockë %d\n", 
 evít
@@ -5363,11 +5619,11 @@ evíts
 hñ≥r_fd
 );
 
-361  
+385  
 SUCCESS
 ;
 
-362 
+386 
 	}
 }
 
@@ -5424,7 +5680,7 @@ d©a
 );
 
 12 
-ed_dummy_ˇŒback
+ed_ªadî_ˇŒback
 (
 ïﬁl_evít
  *
@@ -6922,6 +7178,222 @@ sockfd
 (
 £rvî_fd
 );
+
+	@generate_text.c
+
+4 
+	~<°dio.h
+>
+
+5 
+	~<°dlib.h
+>
+
+6 
+	~<°rög.h
+>
+
+7 
+	#MAXGENERATE
+ 210000
+
+	)
+
+8 
+	#MAXLINE
+ 65535
+
+	)
+
+10 
+gíî©e_ãxt
+(*
+ív
+);
+
+12 
+	$gíî©e_ãxt
+(*
+ív
+)
+
+14 
+c⁄ã¡
+[
+MAXLINE
+], 
+îr‹
+[MAXLINE];
+
+15 
+msg
+[
+MAXGENERATE
+];
+
+16 
+size
+, 
+i
+;
+
+19 
+	`•rötf
+(
+c⁄ã¡
+, "WelcomeÅoÅhe onlineÅext generator: \r\n");
+
+20 
+	`•rötf
+(
+c⁄ã¡
+, "%sThis isáÅext.\r\n<p>", content);
+
+22 i‡(
+ív
+ =
+NULL
+) {
+
+23 
+	`•rötf
+(
+îr‹
+, "Can't scan buffer!<br/>Usage: generate_tex?n=X<br/>\r\n");
+
+24 
+îr‹
+;
+
+26 i‡(
+	`ssˇnf
+(
+ív
+, "n=%d\n", &
+size
+) != 1) {
+
+27 
+	`•rötf
+(
+îr‹
+, "Can't scan buffer!<br/>Usage: generate_tex?n=X<br/>\r\n");
+
+28 
+îr‹
+;
+
+30 i‡((
+size
+ < 0Ë|| (sizê> (
+MAXGENERATE
+ - 1))) {
+
+31 
+	`•rötf
+(
+îr‹
+, "Sizêmu° bêbëwì¿%dánd %d", 0, 
+MAXGENERATE
+ -1);
+
+32 
+îr‹
+;
+
+37 
+i
+ = 0; i < 
+size
+; i++) {
+
+38 
+msg
+[
+i
+] = () (33 + (i % 93));
+
+40 
+msg
+[
+size
+] = '\0';
+
+43 
+	`¥ötf
+("Content-length: %u\r\n",
+
+44 (Ë(
+	`°æí
+(
+c⁄ã¡
+Ë+ 
+size
+));
+
+45 
+	`¥ötf
+("Content-type:Åext/html\r\n\r\n");
+
+46 
+	`¥ötf
+("%s", 
+c⁄ã¡
+);
+
+47 
+	`¥ötf
+("%s\r\n", 
+msg
+);
+
+48 
+	`fÊush
+(
+°dout
+);
+
+51 
+îr‹
+:
+
+52 
+	`¥ötf
+("Content-length: %u\r\n",
+
+53 (Ë(
+	`°æí
+(
+c⁄ã¡
+)+ såÀn(
+îr‹
+)));
+
+54 
+	`¥ötf
+("Content-type:Åext/html\r\n\r\n");
+
+55 
+	`¥ötf
+("%s", 
+c⁄ã¡
+);
+
+56 
+	`¥ötf
+("%s", 
+îr‹
+);
+
+57 
+	`fÊush
+(
+°dout
+);
+
+59 
+	}
+}
 
 	@hello.c
 
@@ -8748,6 +9220,354 @@ fd
 );
 
 121 
+	}
+}
+
+	@reader_slave.c
+
+1 
+	~<°dlib.h
+>
+
+2 
+	~<°dio.h
+>
+
+3 
+	~<uni°d.h
+>
+
+4 
+	~<°rögs.h
+>
+
+5 
+	~<pwd.h
+>
+
+6 
+	~<î∫o.h
+>
+
+7 
+	~<sys/ty≥s.h
+>
+
+8 
+	~<sys/°©.h
+>
+
+9 
+	~<sys/time.h
+>
+
+10 
+	~<sys/mm™.h
+>
+
+11 
+	~<sys/shm.h
+>
+
+12 
+	~<sys/ùc.h
+>
+
+13 
+	~<f˙é.h
+>
+
+14 
+	~"comm⁄.h
+"
+
+16 
+	#OUTFD
+ 0
+
+	)
+
+17 
+	#READ_CHUNK_SIZE
+ 1024
+
+	)
+
+20 
+	$maö
+(
+¨gc
+, *
+¨gv
+[])
+
+22 
+FILE
+ *
+Â
+ = 
+NULL
+;
+
+23 *
+ª∂y
+ = "done";
+
+24 
+ªque°
+[
+MAX_LINE
+];
+
+25 
+buf„r
+[
+READ_CHUNK_SIZE
+];
+
+26 
+fûe_∑th
+[
+MAX_LINE
+];
+
+27 
+size
+, 
+shmid
+, 
+key
+, 
+Àn
+, 
+i
+;
+
+28 *
+shm
+;
+
+29 
+	`dbg_¥ötf
+("Dummy slave started.\n");
+
+32 
+ª∂y
+ = "done";
+
+33 
+ªt
+ = 
+	`ªad
+(0, 
+ªque°
+, 
+MAX_LINE
+);
+
+34 i‡(
+ªt
+ == 0) {
+
+35 
+	`dbg_¥ötf
+("read slaveÑeturned 0.\n");
+
+36 
+	`exô
+(0);
+
+38 i‡(
+ªt
+ < 0) {
+
+39 
+	`dbg_¥ötf
+("read slave hadÇegativeÑeturn value.\n");
+
+40 
+	`exô
+(0);
+
+42 i‡(
+	`ssˇnf
+(
+ªque°
+, "%d %d %s", &
+key
+, &
+size
+, 
+fûe_∑th
+) != 3) {
+
+43 
+	`dbg_¥ötf
+("scanfÑeturnedánÉrror\n");
+
+44 
+	`exô
+(0);
+
+52 
+	`dbg_¥ötf
+("MasterÑequestát slave: key: %d, size: %d, file_path: %s\n",
+
+53 
+key
+, 
+size
+, 
+fûe_∑th
+);
+
+55 
+Â
+ = 
+	`f›í
+(
+fûe_∑th
+, "r");
+
+56 i‡(
+Â
+ < 0) {
+
+57 
+ª∂y
+ = "fd failed";
+
+60 i‡((
+shmid
+ = 
+	`shmgë
+(
+key
+, 
+size
+, 
+IPC_CREAT
+ | 0666)) < 0) {
+
+61 
+	`dbg_¥ötf
+("shmgë(Ëîr‹: %s\n", 
+	`°ªº‹
+(
+î∫o
+));
+
+62 
+	`exô
+(0);
+
+64 i‡((
+shm
+ = 
+	`shm©
+(
+shmid
+, 
+NULL
+, 0)) == (*) -1) {
+
+65 
+	`dbg_¥ötf
+("shm©(Ëîr‹: %s\n", 
+	`°ªº‹
+(
+î∫o
+));
+
+66 
+	`exô
+(0);
+
+68 
+	`dbg_¥ötf
+("key %d, shmid %d, shm %p\n", 
+key
+, 
+shmid
+, 
+shm
+);
+
+69 !
+	`„of
+(
+Â
+)) {
+
+70 
+Àn
+ = 
+	`‰ód
+(
+buf„r
+, 1, 
+READ_CHUNK_SIZE
+, 
+Â
+);
+
+71 i‡(
+Àn
+ < 0) {
+
+72 
+	`dbg_¥ötf
+("readÉrror\n");
+
+73 
+	`exô
+(0);
+
+75 
+	`mem˝y
+(
+shm
+, 
+buf„r
+, 
+Àn
+);
+
+76 
+	`dbg_¥ötf
+("shm: %s", 
+shm
+);
+
+77 
+shm
+ +
+Àn
+;
+
+86 
+	`f˛o£
+(
+Â
+);
+
+88 
+	`dbg_¥ötf
+("wrôögÑïlyÅÿsockë: %s\n", 
+ª∂y
+);
+
+89 
+	`wrôe
+(
+OUTFD
+, 
+ª∂y
+, 1+
+	`°æí
+(reply));
+
+92 
 	}
 }
 
@@ -28707,6 +29527,126 @@ __THROW
 __END_DECLS
 
 
+	@/usr/include/sys/ipc.h
+
+19 #i‚de‡
+_SYS_IPC_H
+
+
+20 
+	#_SYS_IPC_H
+ 1
+
+	)
+
+22 
+	~<„©uªs.h
+>
+
+24 #i‡!
+deföed
+ 
+__USE_SVID
+ && !deföed 
+__USE_XOPEN
+ && 
+__GNUC__
+ >= 2
+
+29 
+	~<bôs/ù˘y≥s.h
+>
+
+30 
+	~<bôs/ùc.h
+>
+
+32 #i‚de‡
+__uid_t_deföed
+
+
+33 
+__uid_t
+ 
+	tuid_t
+;
+
+34 
+	#__uid_t_deföed
+
+
+	)
+
+37 #i‚de‡
+__gid_t_deföed
+
+
+38 
+__gid_t
+ 
+	tgid_t
+;
+
+39 
+	#__gid_t_deföed
+
+
+	)
+
+42 #i‚de‡
+__mode_t_deföed
+
+
+43 
+__mode_t
+ 
+	tmode_t
+;
+
+44 
+	#__mode_t_deföed
+
+
+	)
+
+47 #i‚de‡
+__key_t_deföed
+
+
+48 
+__key_t
+ 
+	tkey_t
+;
+
+49 
+	#__key_t_deföed
+
+
+	)
+
+52 
+__BEGIN_DECLS
+
+
+55 
+key_t
+ 
+	$·ok
+ (
+__c⁄°
+ *
+__∑th«me
+, 
+__¥oj_id
+Ë
+__THROW
+;
+
+57 
+__END_DECLS
+
+
 	@/usr/include/sys/mman.h
 
 20 #i‚def 
@@ -29094,6 +30034,134 @@ __«me
 );
 
 150 
+__END_DECLS
+
+
+	@/usr/include/sys/shm.h
+
+19 #i‚de‡
+_SYS_SHM_H
+
+
+20 
+	#_SYS_SHM_H
+ 1
+
+	)
+
+22 
+	~<„©uªs.h
+>
+
+24 
+	#__√ed_size_t
+
+
+	)
+
+25 
+	~<°ddef.h
+>
+
+28 
+	~<sys/ùc.h
+>
+
+31 
+	~<bôs/shm.h
+>
+
+34 
+	#__√ed_time_t
+
+
+	)
+
+35 
+	~<time.h
+>
+
+37 #ifde‡
+__USE_XOPEN
+
+
+38 #i‚de‡
+__pid_t_deföed
+
+
+39 
+__pid_t
+ 
+	tpid_t
+;
+
+40 
+	#__pid_t_deföed
+
+
+	)
+
+45 
+__BEGIN_DECLS
+
+
+51 
+	$shm˘l
+ (
+__shmid
+, 
+__cmd
+, 
+shmid_ds
+ *
+__buf
+Ë
+__THROW
+;
+
+54 
+	$shmgë
+ (
+key_t
+ 
+__key
+, 
+size_t
+ 
+__size
+, 
+__shmÊg
+Ë
+__THROW
+;
+
+57 *
+	$shm©
+ (
+__shmid
+, 
+__c⁄°
+ *
+__shmaddr
+, 
+__shmÊg
+)
+
+58 
+__THROW
+;
+
+61 
+	$shmdt
+ (
+__c⁄°
+ *
+__shmaddr
+Ë
+__THROW
+;
+
+63 
 __END_DECLS
 
 
@@ -43831,6 +44899,156 @@ SIOCGIFINDEX
 
 	)
 
+	@/usr/include/bits/ipc.h
+
+19 #i‚de‡
+_SYS_IPC_H
+
+
+23 
+	~<bôs/ty≥s.h
+>
+
+26 
+	#IPC_CREAT
+ 01000
+
+	)
+
+27 
+	#IPC_EXCL
+ 02000
+
+	)
+
+28 
+	#IPC_NOWAIT
+ 04000
+
+	)
+
+31 
+	#IPC_RMID
+ 0
+
+	)
+
+32 
+	#IPC_SET
+ 1
+
+	)
+
+33 
+	#IPC_STAT
+ 2
+
+	)
+
+34 #ifde‡
+__USE_GNU
+
+
+35 
+	#IPC_INFO
+ 3
+
+	)
+
+39 
+	#IPC_PRIVATE
+ ((
+__key_t
+Ë0Ë
+
+	)
+
+43 
+	sùc_≥rm
+
+
+45 
+__key_t
+ 
+	m__key
+;
+
+46 
+__uid_t
+ 
+	muid
+;
+
+47 
+__gid_t
+ 
+	mgid
+;
+
+48 
+__uid_t
+ 
+	mcuid
+;
+
+49 
+__gid_t
+ 
+	mcgid
+;
+
+50 
+	mmode
+;
+
+51 
+	m__∑d1
+;
+
+52 
+	m__£q
+;
+
+53 
+	m__∑d2
+;
+
+54 
+	m__unu£d1
+;
+
+55 
+	m__unu£d2
+;
+
+	@/usr/include/bits/ipctypes.h
+
+24 #i‚de‡
+_BITS_IPCTYPES_H
+
+
+25 
+	#_BITS_IPCTYPES_H
+ 1
+
+	)
+
+27 
+	~<bôs/ty≥s.h
+>
+
+30 #i‡
+__WORDSIZE
+ == 32
+
+31 
+	t__ùc_pid_t
+;
+
+33 
+	t__ùc_pid_t
+;
+
 	@/usr/include/bits/mman.h
 
 20 #i‚de‡
@@ -45136,6 +46354,286 @@ __WORDSIZE
 34 
 	t__jmp_buf
 [6];
+
+	@/usr/include/bits/shm.h
+
+20 #i‚de‡
+_SYS_SHM_H
+
+
+24 
+	~<bôs/ty≥s.h
+>
+
+27 
+	#SHM_R
+ 0400
+
+	)
+
+28 
+	#SHM_W
+ 0200
+
+	)
+
+31 
+	#SHM_RDONLY
+ 010000
+
+	)
+
+32 
+	#SHM_RND
+ 020000
+
+	)
+
+33 
+	#SHM_REMAP
+ 040000
+
+	)
+
+34 
+	#SHM_EXEC
+ 0100000
+
+	)
+
+37 
+	#SHM_LOCK
+ 11
+
+	)
+
+38 
+	#SHM_UNLOCK
+ 12
+
+	)
+
+40 
+	g__BEGIN_DECLS
+
+
+43 
+	#SHMLBA
+ (
+	`__gë∑gesize
+ ())
+
+	)
+
+44 
+	$__gë∑gesize
+ (Ë
+__THROW
+ 
+	`__©åibuã__
+ ((
+__c⁄°__
+));
+
+48 
+	tshm©t_t
+;
+
+51 
+	sshmid_ds
+
+
+53 
+ùc_≥rm
+ 
+shm_≥rm
+;
+
+54 
+size_t
+ 
+shm_£gsz
+;
+
+55 
+__time_t
+ 
+shm_©ime
+;
+
+56 #i‡
+__WORDSIZE
+ == 32
+
+57 
+__unu£d1
+;
+
+59 
+__time_t
+ 
+shm_dtime
+;
+
+60 #i‡
+__WORDSIZE
+ == 32
+
+61 
+__unu£d2
+;
+
+63 
+__time_t
+ 
+shm_˘ime
+;
+
+64 #i‡
+__WORDSIZE
+ == 32
+
+65 
+__unu£d3
+;
+
+67 
+__pid_t
+ 
+shm_˝id
+;
+
+68 
+__pid_t
+ 
+shm_Õid
+;
+
+69 
+shm©t_t
+ 
+shm_«âch
+;
+
+70 
+__unu£d4
+;
+
+71 
+__unu£d5
+;
+
+74 #ifde‡
+__USE_MISC
+
+
+77 
+	#SHM_STAT
+ 13
+
+	)
+
+78 
+	#SHM_INFO
+ 14
+
+	)
+
+81 
+	#SHM_DEST
+ 01000
+
+	)
+
+82 
+	#SHM_LOCKED
+ 02000
+
+	)
+
+83 
+	#SHM_HUGETLB
+ 04000
+
+	)
+
+84 
+	#SHM_NORESERVE
+ 010000
+
+	)
+
+86 
+	sshmöfo
+
+
+88 
+shmmax
+;
+
+89 
+shmmö
+;
+
+90 
+shmmni
+;
+
+91 
+shm£g
+;
+
+92 
+shmÆl
+;
+
+93 
+__unu£d1
+;
+
+94 
+__unu£d2
+;
+
+95 
+__unu£d3
+;
+
+96 
+__unu£d4
+;
+
+99 
+	sshm_öfo
+
+
+101 
+u£d_ids
+;
+
+102 
+shm_tŸ
+;
+
+103 
+shm_rss
+;
+
+104 
+shm_swp
+;
+
+105 
+sw≠_©ãm±s
+;
+
+106 
+sw≠_suc˚s£s
+;
+
+111 
+__END_DECLS
+
 
 	@/usr/include/bits/sigaction.h
 
@@ -93544,11 +95042,10 @@ _IOC_SIZESHIFT
 .
 1
 /usr/include
-128
-3178
+134
+3318
 common.c
 common.h
-dummy_slave.c
 ed_epoll_event.c
 ed_epoll_event.h
 ed_http.c
@@ -93557,9 +95054,11 @@ ed_server.c
 ed_server.h
 fastcgi_server.c
 fastcgi_server.h
+generate_text.c
 hello.c
 read_master.c
 read_slave.c
+reader_slave.c
 sumnumbers.c
 /usr/include/arpa/inet.h
 /usr/include/assert.h
@@ -93577,7 +95076,9 @@ sumnumbers.c
 /usr/include/strings.h
 /usr/include/sys/epoll.h
 /usr/include/sys/ioctl.h
+/usr/include/sys/ipc.h
 /usr/include/sys/mman.h
+/usr/include/sys/shm.h
 /usr/include/sys/socket.h
 /usr/include/sys/stat.h
 /usr/include/sys/time.h
@@ -93593,11 +95094,14 @@ sumnumbers.c
 /usr/include/bits/fcntl2.h
 /usr/include/bits/ioctl-types.h
 /usr/include/bits/ioctls.h
+/usr/include/bits/ipc.h
+/usr/include/bits/ipctypes.h
 /usr/include/bits/mman.h
 /usr/include/bits/netdb.h
 /usr/include/bits/posix_opt.h
 /usr/include/bits/pthreadtypes.h
 /usr/include/bits/setjmp.h
+/usr/include/bits/shm.h
 /usr/include/bits/sigaction.h
 /usr/include/bits/sigcontext.h
 /usr/include/bits/siginfo.h

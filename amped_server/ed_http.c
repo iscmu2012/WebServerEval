@@ -253,16 +253,22 @@ int write_http_response(struct ed_epoll *epoll_obj, int fd, void *data)
 
     // unlink shared memory after done using it.
 		if (shmctl(shmid, IPC_RMID, NULL) < 0) {
-        dbg_printf("shmctl() error: %s\n", strerror(errno));
+        err_printf("shmctl() error: %s\n", strerror(errno));
         assert(0);
      } 
      
      dbg_printf("shmctl() unlink SUCCESS\n");
 
+     // detach shared memory
+     if (shmdt(old_shm) == -1) {
+       err_printf("shmdt() error: %s\n", strerror(errno));
+       assert(0);
+     }
+
      // Free the helper again and decrease inuse counter.
      helper_idx = hi_get_helper_for_fd(epoll_obj, client->fd);
      if (helper_idx == -1) {
-       dbg_printf("WTF this should not be happening!\n");
+       err_printf("WTF this should not be happening!\n");
        assert(0);
      }
      epoll_obj->helper_info[helper_idx].hi_client = NULL;

@@ -266,7 +266,7 @@ int ed_reader_callback(struct epoll_event *event, void *data)
   }
   else if(event->events & EPOLLHUP)
   {
-    dbg_printf("Event:EPOLLHUP %d on socket %d\n", event->events, helper_fd);
+    err_printf("Event:EPOLLHUP %d on socket %d\n", event->events, helper_fd);
     ed_epoll_del(&ed_epoll, helper_fd);
     close_socket(helper_fd);
     assert(0);
@@ -278,7 +278,7 @@ int ed_reader_callback(struct epoll_event *event, void *data)
   }
   else if(event->events & EPOLLRDHUP)
   {
-    dbg_printf("Event:EPOLLRDHUP %d on socket %d\n", event->events, helper_fd);
+    err_printf("Event:EPOLLRDHUP %d on socket %d\n", event->events, helper_fd);
     ed_epoll_del(&ed_epoll, helper_fd);
     close_socket(helper_fd);
     assert(0);
@@ -314,7 +314,7 @@ int ed_reader_callback(struct epoll_event *event, void *data)
         
         n = write(helper_fd, request, strlen(request) + 1);
         if(n != (strlen(request) + 1)) {
-       	  dbg_printf("not everything was written out to %d\n", helper_fd);
+       	  err_printf("not everything was written out to %d\n", helper_fd);
           assert(0);
           // TODO error: close helper socket, kill process, and set client
           // status to be STATUS_REQUEST_FINISH.

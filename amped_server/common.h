@@ -8,7 +8,7 @@
 #include <errno.h>
 #include <unistd.h>
 
-#define DEBUG 
+/* #define DEBUG */
 
 #define SERVERPORT 33923
 #define SERVERQUEUELENGTH 10

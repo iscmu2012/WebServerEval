@@ -336,7 +336,7 @@ int ed_reader_callback(struct epoll_event *event, void *data)
     client_fd = req_client->fd;
 
     if(req_client->http_req.status != STATUS_MAP_REQUESTED) {
-      dbg_printf("why is there data to be read but process is not waiting?\n");
+      err_printf("why is there data to be read but process is not waiting?\n");
       assert(0);
     }
 

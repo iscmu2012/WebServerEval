@@ -104,7 +104,7 @@ int write_http_response(int fd, struct parsed_request *http_req)
   fp = fopen(file_path, "r");
   if(fp == NULL)
   {
-    err_printf("requested file not found: %s\n", file_path);
+//    err_printf("requested file not found: %s\n", file_path);
     write_http_response_error(404, fd);
     return FAILURE;
   }
